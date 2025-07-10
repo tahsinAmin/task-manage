@@ -23,12 +23,12 @@ export default function Home() {
   }
 
   const moveToOngoing = (task: taskProp) => {
-    setOngoing([...ongoing, task])
+    setOngoing([ ...ongoing, {...task, status: "ongoing"}])
     setNewTask(newTask.filter((newTask) => newTask.title !== task.title))
   }
 
   const moveToDone = (task: taskProp) => {
-    setDone([...done, task])
+    setDone([ ...done, {...task, status: "done"}])
     setOngoing(ongoing.filter((ongoing) => ongoing.title !== task.title))
   }
 
