@@ -13,6 +13,21 @@ export default function Home() {
     setNewTask([e.currentTarget.task.value, ...newTask])
     e.currentTarget.task.value = ""
   }
+
+  const moveToOngoing = (task: string) => {
+    setOngoing([...ongoing, task])
+    setNewTask(newTask.filter((newTask) => newTask !== task))
+  }
+
+  const moveToDone = (task: string) => {
+    setDone([...done, task])
+    setOngoing(ongoing.filter((ongoing) => ongoing !== task))
+  }
+
+  const removeDone = (task: string) => {
+    setDone(done.filter((done) => done !== task))
+  }
+
   return (
     <div className="container mx-auto">
       <div className="flex flex-col gap-4 p-4">
@@ -29,7 +44,7 @@ export default function Home() {
               <h2 className="text-2xl font-bold">Todo</h2>
               <ul className="flex flex-col gap-2 border border-gray-300 rounded p-2">
                 {newTask.map((newTask) => (
-                  <li key={newTask} className="text-xl">{newTask}</li>
+                  <li key={newTask} className="text-xl">{newTask} <button onClick={() => moveToOngoing(newTask)}>Move</button></li>
                 ))}
               </ul>
             </div>
@@ -37,7 +52,7 @@ export default function Home() {
               <h2 className="text-2xl font-bold">Ongoing</h2>
               <ul className="flex flex-col gap-2 border border-gray-300 rounded p-2">
                 {ongoing.map((ongoing) => (
-                  <li key={ongoing} className="text-xl">{ongoing}</li>
+                  <li key={ongoing} className="text-xl">{ongoing} <button onClick={() => moveToDone(ongoing)}>Move</button></li>
                 ))}
               </ul>
             </div>
@@ -45,7 +60,7 @@ export default function Home() {
               <h2 className="text-2xl font-bold">Done</h2>
               <ul className="flex flex-col gap-2 border border-gray-300 rounded p-2">
                 {done.map((done) => (
-                  <li key={done} className="text-xl">{done}</li>
+                  <li key={done} className="text-xl">{done} <button onClick={() => removeDone(done)}>Move</button></li>
                 ))}
               </ul>
             </div>
