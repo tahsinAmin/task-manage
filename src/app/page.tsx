@@ -12,10 +12,11 @@ export default function Home() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    let newItem = { id: crypto.randomUUID(), title: e.currentTarget.task.value, status: "new", description: e.currentTarget.description.value };
+    const newItem = { id: crypto.randomUUID(), title: e.currentTarget.task.value, status: "new", description: e.currentTarget.description.value, dueDate: "" };
     setNewTask([newItem, ...newTask])
     e.currentTarget.task.value = ""
     e.currentTarget.description.value = ""
+    e.currentTarget.dueDate.value = ""
   }
 
   const shiftTask = (index: number, task: taskProp) => {
@@ -38,12 +39,13 @@ export default function Home() {
           <div className="tag border border-gray-300 rounded-full p-2 display-inline w-fit">New Task</div>
           <input placeholder="Enter title" name="task" className="border border-gray-300 rounded p-2" />
           <textarea placeholder="Enter description" name="description" className="border border-gray-300 rounded p-2" />
-          <input type="submit" value="Add" className="border border-gray-300 rounded p-2"/>
+          <input type="date" name="dueDate" className="border border-gray-300 rounded p-2" />
+          <input type="submit" value="Add" className="border border-gray-300 rounded p-2" />
         </form>
 
         <div className="flex flex-col gap-4">
           <h1 className="text-3xl font-bold underline">Todo List</h1>
-          <div className="flex gap-4">
+          <div className="grid md:grid-flow-col gap-4">
             <Board title="New" tasks={newTask} state={0} shiftTask={shiftTask}/>
             <Board title="Ongoing" tasks={ongoing} state={1} shiftTask={shiftTask}/>
             <Board title="Done" tasks={done} state={2} shiftTask={shiftTask}/>
