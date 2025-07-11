@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { taskProp } from "./types/types"
-import Board from "./components/Board"
+import Column from "./components/Column"
 import { doneDemoTasks, newDemoTasks, ongoingDemoTasks } from "./utils"
 
 export default function Home() {
@@ -74,9 +74,9 @@ export default function Home() {
         <div className="flex flex-col gap-4">
           <h1 className="text-3xl font-bold underline">Todo List</h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Board title="New" tasks={newTask} state={0} moveTask={moveTask} />
-            <Board title="Ongoing" tasks={ongoing} state={1} moveTask={moveTask} />
-            <Board title="Done" tasks={done} state={2} moveTask={moveTask} />
+            <Column title="New" tasks={newTask} state={0} moveTask={moveTask} />
+            <Column title="Ongoing" tasks={ongoing} state={1} moveTask={moveTask} />
+            <Column title="Done" tasks={done} state={2} moveTask={moveTask} />
           </div>
         </div>
       </div>
