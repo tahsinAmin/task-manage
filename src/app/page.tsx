@@ -1,13 +1,8 @@
 "use client"
 
 import { useState } from "react"
-
-type taskProp = {
-  id: string,
-  title: string,
-  status: string,
-  description: string
-}
+import { taskProp } from "./types/types"
+import Board from "./components/Board"
 
 export default function Home() {
   const [newTask, setNewTask] = useState<taskProp[]>([{id: "1", title:"new 1", status:"new", description:"new 1"}, {id: "2", title:"new 2", status:"new", description:"new 2"}, {id: "3", title:"new 3", status:"new", description:"new 3"}])
@@ -22,18 +17,16 @@ export default function Home() {
     e.currentTarget.description.value = ""
   }
 
-  const moveToOngoing = (task: taskProp) => {
+  const shiftTask = (index: number, task: taskProp) => {
+    if (index === 0) {
     setOngoing([ ...ongoing, {...task, status: "ongoing"}])
     setNewTask(newTask.filter((newTask) => newTask.title !== task.title))
-  }
-
-  const moveToDone = (task: taskProp) => {
+    } else if (index === 1) {
     setDone([ ...done, {...task, status: "done"}])
     setOngoing(ongoing.filter((ongoing) => ongoing.title !== task.title))
+    } else {
+      setDone(done.filter((done) => done.title !== task.title))
   }
-
-  const removeDone = (task: taskProp) => {
-    setDone(done.filter((done) => done.title !== task.title))
   }
 
   return (
@@ -50,30 +43,9 @@ export default function Home() {
         <div className="flex flex-col gap-4">
           <h1 className="text-3xl font-bold underline">Todo List</h1>
           <div className="flex gap-4">
-            <div className="flex flex-col gap-4">
-              <h2 className="text-2xl font-bold">Todo</h2>
-              <ul className="flex flex-col gap-2 border border-gray-300 rounded p-2">
-                {newTask.map((newTask) => (
-                  <li key={newTask.id} className="text-xl">{newTask.title} <button onClick={() => moveToOngoing(newTask)}>Move</button></li>
-                ))}
-              </ul>
-            </div>
-            <div className="flex flex-col gap-4">
-              <h2 className="text-2xl font-bold">Ongoing</h2>
-              <ul className="flex flex-col gap-2 border border-gray-300 rounded p-2">
-                {ongoing.map((ongoing) => (
-                  <li key={ongoing.id} className="text-xl">{ongoing.title} <button onClick={() => moveToDone(ongoing)}>Move</button></li>
-                ))}
-              </ul>
-            </div>
-            <div className="flex flex-col gap-4">
-              <h2 className="text-2xl font-bold">Done</h2>
-              <ul className="flex flex-col gap-2 border border-gray-300 rounded p-2">
-                {done.map((done) => (
-                  <li key={done.id} className="text-xl">{done.title} <button onClick={() => removeDone(done)}>Remove</button></li>
-                ))}
-              </ul>
-            </div>
+            <Board title="New" tasks={newTask} state={0} shiftTask={shiftTask}/>
+            <Board title="Ongoing" tasks={ongoing} state={1} shiftTask={shiftTask}/>
+            <Board title="Done" tasks={done} state={2} shiftTask={shiftTask}/>
           </div>
         </div>
       </div>
