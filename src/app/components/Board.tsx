@@ -1,6 +1,13 @@
 import { taskProp } from "../types/types"
 
-const Board = ({title, tasks, state, shiftTask}: {title: string, tasks: any, state: number, shiftTask: any}) => {
+interface BoardProps {
+    title: string;
+    tasks: taskProp[];
+    state: number;
+    moveTask: (task: taskProp, state: number) => void;
+}
+
+const Board = ({title, tasks, state, moveTask}: BoardProps) => {
     return (
         <div>
             <div className="flex flex-col gap-4">
@@ -11,7 +18,7 @@ const Board = ({title, tasks, state, shiftTask}: {title: string, tasks: any, sta
                     <div className="tag border border-gray-300 rounded-full p-2 display-inline w-fit">{task.status}</div>
                     <div className="text-xl">{task.title}</div>
                     <div>{task.description}</div>
-                    <button onClick={() => shiftTask(state, task)}>Move</button>
+                    <button onClick={() => moveTask(task, state)}>Move</button>
                   </li>
                 ))}
               </ul>

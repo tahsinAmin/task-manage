@@ -2,5 +2,6 @@ export interface taskProp {
   id: string,
   title: string,
   status: string,
-  description: string
+  description: string,
+  dueDate: string
 }

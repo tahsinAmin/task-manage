@@ -9,6 +9,9 @@ export default function Home() {
   const [newTask, setNewTask] = useState<taskProp[]>(newDemoTasks)
   const [ongoing, setOngoing] = useState<taskProp[]>(ongoingDemoTasks)
   const [done, setDone] = useState<taskProp[]>(doneDemoTasks)
+  const [activeTag, setActiveTag] = useState<number>(-1)
+  const [displayOptions, setDisplayOptions] = useState<boolean>(false)
+  const [itemSelected, setItemSelected] = useState<taskProp | null>(null)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -20,15 +23,28 @@ export default function Home() {
   }
 
   const shiftTask = (index: number, task: taskProp) => {
+    setDisplayOptions(false)
     if (index === 0) {
-    setOngoing([ ...ongoing, {...task, status: "ongoing"}])
-    setNewTask(newTask.filter((newTask) => newTask.title !== task.title))
+      setNewTask([...newTask, { ...task, status: "new" }])
     } else if (index === 1) {
-    setDone([ ...done, {...task, status: "done"}])
-    setOngoing(ongoing.filter((ongoing) => ongoing.title !== task.title))
+      setOngoing([...ongoing, { ...task, status: "ongoing" }])
+    } else {
+      setDone([...done, { ...task, status: "done" }])
+    }
+
+    if (task.status === "new") {
+      setNewTask(newTask.filter((newTask) => newTask.title !== task.title))
+    } else if (task.status === "ongoing") {
+      setOngoing(ongoing.filter((ongoing) => ongoing.title !== task.title))
     } else {
       setDone(done.filter((done) => done.title !== task.title))
+    }
   }
+
+  const moveTask = (task: taskProp, state: number) => {
+    setItemSelected(task)
+    setActiveTag(state);
+    setDisplayOptions(true)
   }
 
   return (
@@ -42,13 +58,23 @@ export default function Home() {
           <input type="date" name="dueDate" className="border border-gray-300 rounded p-2" />
           <input type="submit" value="Add" className="border border-gray-300 rounded p-2" />
         </form>
+        {
+          displayOptions && <div className="move-process">
+            <h2>Move towards?</h2>
+            <div className="flex gap-2">
+              {activeTag !== 0 && <button className="border border-gray-300 rounded p-2" onClick={() => shiftTask(0, itemSelected!)}>New</button>}
+              {activeTag !== 1 && <button className="border border-gray-300 rounded p-2" onClick={() => shiftTask(1, itemSelected!)}>Ongoing</button>}
+              {activeTag !== 2 && <button className="border border-gray-300 rounded p-2" onClick={() => shiftTask(2, itemSelected!)}>Done</button>}
+            </div>
+          </div>
+        }
 
         <div className="flex flex-col gap-4">
           <h1 className="text-3xl font-bold underline">Todo List</h1>
           <div className="grid md:grid-flow-col gap-4">
-            <Board title="New" tasks={newTask} state={0} shiftTask={shiftTask}/>
-            <Board title="Ongoing" tasks={ongoing} state={1} shiftTask={shiftTask}/>
-            <Board title="Done" tasks={done} state={2} shiftTask={shiftTask}/>
+            <Board title="New" tasks={newTask} state={0} moveTask={moveTask} />
+            <Board title="Ongoing" tasks={ongoing} state={1} moveTask={moveTask} />
+            <Board title="Done" tasks={done} state={2} moveTask={moveTask} />
           </div>
         </div>
       </div>
