@@ -48,7 +48,7 @@ export default function Home() {
   }
 
   return (
-    <div className="container mx-auto">
+    <div className="bg-white rounded-xl shadow-lg p-4 w-full mx-auto">
       <div className="flex flex-col gap-4 p-4">
 
         <div className="flex justify-center">
@@ -61,13 +61,34 @@ export default function Home() {
           </form>
         </div>
         {
-          displayOptions && <div className="move-process">
-            <h2>Move towards?</h2>
-            <div className="flex gap-2">
-              {activeTag !== 0 && <button className="border border-gray-300 rounded p-2" onClick={() => shiftTask(0, itemSelected!)}>New</button>}
-              {activeTag !== 1 && <button className="border border-gray-300 rounded p-2" onClick={() => shiftTask(1, itemSelected!)}>Ongoing</button>}
-              {activeTag !== 2 && <button className="border border-gray-300 rounded p-2" onClick={() => shiftTask(2, itemSelected!)}>Done</button>}
-            </div>
+          displayOptions &&
+          <div className="bg-white rounded-xl shadow-lg p-4 w-full max-w-sm mx-auto">
+            
+            {activeTag !== 0 && <div onClick={() => shiftTask(0, itemSelected!)} className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors duration-200">
+              <div className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" className="h-5 w-5 text-gray-500 mr-3 rotate-90">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                </svg>
+                <span className="text-gray-800 text-sm font-medium">Move to New</span>
+              </div>
+            </div>}
+            {activeTag !== 1 && <div onClick={() => shiftTask(1, itemSelected!)} className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors duration-200">
+              <div className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" className="h-5 w-5 text-gray-500 mr-3 rotate-90">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                </svg>
+                <span className="text-gray-800 text-sm font-medium">Move to Ongoing</span>
+              </div>
+            </div>}
+            {activeTag !== 2 && <div onClick={() => shiftTask(2, itemSelected!)} className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors duration-200">
+              <div className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" className="h-5 w-5 text-gray-500 mr-3 rotate-90">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                </svg>
+                <span className="text-gray-800 text-sm font-medium">Move to Done</span>
+              </div>
+            </div>}
+
           </div>
         }
 
