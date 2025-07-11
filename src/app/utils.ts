@@ -1,0 +1,5 @@
+export const newDemoTasks = [{ id: "1", title: "new 1", status: "new", description: "new 1", dueDate: "" }, { id: "2", title: "new 2", status: "new", description: "new 2", dueDate: "" }, { id: "3", title: "new 3", status: "new", description: "new 3", dueDate: "" }]
+
+export const ongoingDemoTasks = [{ id: "4", title: "ongoing 1", status: "ongoing", description: "ongoing 1", dueDate: "" }, { id: "5", title: "ongoing 2", status: "ongoing", description: "ongoing 2", dueDate: "" }, { id: "6", title: "ongoing 3", status: "ongoing", description: "ongoing 3", dueDate: "" }]
+
+export const doneDemoTasks = [{ id: "7", title: "done 1", status: "done", description: "done 1", dueDate: "" }, { id: "8", title: "done 2", status: "done", description: "done 2", dueDate: "" }, { id: "9", title: "done 3", status: "done", description: "done 3", dueDate: "" }]

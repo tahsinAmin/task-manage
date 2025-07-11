@@ -3,11 +3,12 @@
 import { useState } from "react"
 import { taskProp } from "./types/types"
 import Board from "./components/Board"
+import { doneDemoTasks, newDemoTasks, ongoingDemoTasks } from "./utils"
 
 export default function Home() {
-  const [newTask, setNewTask] = useState<taskProp[]>([{id: "1", title:"new 1", status:"new", description:"new 1"}, {id: "2", title:"new 2", status:"new", description:"new 2"}, {id: "3", title:"new 3", status:"new", description:"new 3"}])
-  const [ongoing, setOngoing] = useState<taskProp[]>([{id: "4", title:"ongoing 1", status:"ongoing", description:"ongoing 1"}, {id: "5", title:"ongoing 2", status:"ongoing", description:"ongoing 2"}, {id: "6", title:"ongoing 3", status:"ongoing", description:"ongoing 3"}])
-  const [done, setDone] = useState<taskProp[]>([{id: "7", title:"done 1", status:"done", description:"done 1"}, {id: "8", title:"done 2", status:"done", description:"done 2"}, {id: "9", title:"done 3", status:"done", description:"done 3"}])
+  const [newTask, setNewTask] = useState<taskProp[]>(newDemoTasks)
+  const [ongoing, setOngoing] = useState<taskProp[]>(ongoingDemoTasks)
+  const [done, setDone] = useState<taskProp[]>(doneDemoTasks)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
