@@ -51,13 +51,15 @@ export default function Home() {
     <div className="container mx-auto">
       <div className="flex flex-col gap-4 p-4">
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2 border border-4 border-gray-300 rounded-3xl p-4 w-1/2">
-          <div className="tag border border-gray-300 rounded-full p-2 display-inline w-fit">New Task</div>
-          <input placeholder="Enter title" name="task" className="border border-gray-300 rounded p-2" />
-          <textarea placeholder="Enter description" name="description" className="border border-gray-300 rounded p-2" />
-          <input type="date" name="dueDate" className="border border-gray-300 rounded p-2" />
-          <input type="submit" value="Add" className="border border-gray-300 rounded p-2" />
-        </form>
+        <div className="flex justify-center">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2 border border-4 border-gray-300 rounded-3xl p-4 sm:w-1/2">
+            <div className="tag border border-gray-300 rounded-full p-2 display-inline w-fit">New Task</div>
+            <input placeholder="Enter title" name="task" className="border border-gray-300 rounded p-2" />
+            <textarea placeholder="Enter description" name="description" className="border border-gray-300 rounded p-2" />
+            <input type="date" name="dueDate" className="border border-gray-300 rounded p-2" />
+            <input type="submit" value="Add" className="border border-gray-300 rounded p-2" />
+          </form>
+        </div>
         {
           displayOptions && <div className="move-process">
             <h2>Move towards?</h2>
@@ -71,7 +73,7 @@ export default function Home() {
 
         <div className="flex flex-col gap-4">
           <h1 className="text-3xl font-bold underline">Todo List</h1>
-          <div className="grid md:grid-flow-col gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Board title="New" tasks={newTask} state={0} moveTask={moveTask} />
             <Board title="Ongoing" tasks={ongoing} state={1} moveTask={moveTask} />
             <Board title="Done" tasks={done} state={2} moveTask={moveTask} />
