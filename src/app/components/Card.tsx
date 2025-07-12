@@ -2,18 +2,18 @@ import { taskProp } from "../types/types";
 
 const Card = ({ task, moveTask, state }: { task: taskProp, moveTask: (task: taskProp, state: number) => void, state: number }) => {
     return (
-        <li className="bg-black bg-opacity-80 rounded-[20px] shadow-xl p-3 xl:w-[345px] relative overflow-hidden border-2 border-purple-500" onClick={() => moveTask(task, state)}>
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-800 to-indigo-900 opacity-30 rounded-2xl"></div>
+        <li className=" rounded-[20px] shadow-xl p-3 xl:w-[345px] relative overflow-hidden border-2 border-gray-200" onClick={() => moveTask(task, state)}>
+            <div className="absolute inset-0 rounded-2xl"></div>
             <div className="relative z-10">
-                <span className="inline-block bg-indigo-600 text-indigo-300 text-xs px-2 py-1 rounded-full mb-4 shadow-md">
+                <span className={`inline-block tag-${task.status} text-xs px-2 py-1 rounded-full mb-4 shadow-md capitalize`}>
                 {task.status}
                 </span>
 
-                <h2 className="text-white text-md font-bold mb-2 leading-tight">
+                <h2 className="text-md font-bold mb-2 leading-tight">
                     {task.title}
                 </h2>
 
-                <p className="text-gray-300 text-base mb-5 line-clamp-2">
+                <p className="text-gray-500 text-base mb-5 line-clamp-2">
                     {task.description}
                 </p>
 
