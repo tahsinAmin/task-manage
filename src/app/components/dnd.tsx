@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { demoTasks } from "../utils";
+import { taskProp } from "../types";
+import Card from "./Card";
 
 interface Task {
     id: string;
@@ -11,7 +13,7 @@ interface Task {
     dueDate: string;
 }
 
-const Dnd = () => {
+const Dnd = ({moveTask}: {moveTask: (task: taskProp) => void}) => {
     const [tasks, setTasks] = useState<Task[]>(demoTasks)
 
     const [dropIndicator, setDropIndicator] = useState<string | null>(null);
@@ -20,26 +22,20 @@ const Dnd = () => {
         return tasks
             .filter(task => task.status === status)
             .map(task => (
-                <div
-                    key={task.id}
-                    draggable
-                    onDragStart={(e) => handleDragStart(e, task.id)}
-                    onDragEnd={(e) => handleDragEnd(e)}
-                    className="w-full p-2 bg-gray-100 rounded"
-                >{task.title}</div>
+                <Card key={task.id} task={task} moveTask={moveTask} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd}/>
             ));
     };
-    const handleDragStart = (e: React.DragEvent<HTMLDivElement>, taskId: string) => {
+    const handleDragStart = (e: React.DragEvent<HTMLLIElement>, taskId: string) => {
         e.dataTransfer.setData("text/plain", taskId.toString());
     }
 
-    const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    const handleDragEnd = (e: React.DragEvent<HTMLLIElement>) => {
         e.dataTransfer.clearData();
         setDropIndicator(null);
     }
 
 
-    const handleDrop = (e: React.DragEvent<HTMLDivElement>, status: string) => {
+    const handleDrop = (e: React.DragEvent<HTMLDivElement | HTMLUListElement>, status: string) => {
         e.preventDefault();
         const taskId = e.dataTransfer.getData("text/plain");
         setTasks((prevTasks) => {
@@ -50,10 +46,11 @@ const Dnd = () => {
                 return task;
             })
         });
+        setDropIndicator(null);
     }
 
 
-    const handleDragOver = (e: React.DragEvent<HTMLDivElement>, status: string) => {
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement | HTMLUListElement>, status: string) => {
         e.preventDefault();
         setDropIndicator(status);
     }
@@ -63,7 +60,7 @@ const Dnd = () => {
             <div className="grid sm:grid-cols-3 gap-2">
                 <div>
                     <h2 className="text-2xl font-bold sm:text-center">Todo</h2>
-                    <div
+                    <ul
                         id="new"
                         onDrop={(e) => handleDrop(e, "new")}
                         onDragOver={(e) => handleDragOver(e, "new")}
@@ -71,11 +68,11 @@ const Dnd = () => {
                             }`}
                     >
                         {renderTasks("new")}
-                    </div>
+                    </ul>
                 </div>
                 <div>
                     <h2 className="text-2xl font-bold sm:text-center">In Progress</h2>
-                    <div
+                    <ul
                         id="ongoing"
                         onDrop={(e) => handleDrop(e, "ongoing")}
                         onDragOver={(e) => handleDragOver(e, "ongoing")}
@@ -83,19 +80,19 @@ const Dnd = () => {
                             }`}
                     >
                         {renderTasks("ongoing")}
-                    </div>
+                    </ul>
                 </div>
 
                 <div>
                     <h2 className="text-2xl font-bold sm:text-center">Done</h2>
-                    <div id="done"
+                    <ul id="done"
                         onDrop={(e) => handleDrop(e, "done")}
                         onDragOver={(e) => handleDragOver(e, "done")}
                         className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded min-h-[200px] ${dropIndicator === 'done' ? 'bg-blue-200' : ''
                             }`}
                     >
                         {renderTasks("done")}
-                    </div>
+                    </ul>
                 </div>
             </div>
         </div>

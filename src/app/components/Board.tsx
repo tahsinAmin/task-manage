@@ -2,12 +2,18 @@
 
 import { useState } from "react"
 import { taskProp } from "../types"
-import Column from "./Column"
 import { doneDemoTasks, newDemoTasks, ongoingDemoTasks } from "../utils"
 import { Navbar } from "./Navbar"
 import { AddTaskModal } from "./AddTaskModal"
 import { TaskDetailsModal } from "./TaskDetailsModal"
 import Dnd from "./dnd"
+
+const state = {
+    new: 0,
+    ongoing: 1,
+    done: 2
+}
+
 
 export const Board = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -69,9 +75,9 @@ export const Board = () => {
     }
   }
 
-  const moveTask = (task: taskProp, state: number) => {
+  const moveTask = (task: taskProp) => {
     setItemSelected(task)
-    setActiveTag(state);
+    setActiveTag(state[task.status as keyof typeof state]);
     setDisplayOptions(true)
   }
 
@@ -132,14 +138,7 @@ export const Board = () => {
 
             </div>
           }
-          <div className="flex flex-col gap-4">
-          <Dnd />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Column title="New" tasks={newTask} state={0} moveTask={moveTask} />
-              <Column title="Ongoing" tasks={ongoing} state={1} moveTask={moveTask} />
-              <Column title="Done" tasks={done} state={2} moveTask={moveTask} />
-            </div>
-          </div>
+          <Dnd moveTask={moveTask}/>
         </div>
       </div>
     </div>
