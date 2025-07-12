@@ -1,19 +1,18 @@
 "use client"
 
 import { useState } from "react";
+import { demoTasks } from "../utils";
 
 interface Task {
-    id: number;
+    id: string;
     title: string;
     status: string;
+    description: string;
+    dueDate: string;
 }
 
 const Dnd = () => {
-    const [tasks, setTasks] = useState<Task[]>([
-        { id: 1, title: "Task 1", status: "todo" },
-        { id: 2, title: "Task 2", status: "todo" },
-        { id: 3, title: "Task 3", status: "todo" }
-    ])
+    const [tasks, setTasks] = useState<Task[]>(demoTasks)
 
     const [dropIndicator, setDropIndicator] = useState<string | null>(null);
 
@@ -30,7 +29,7 @@ const Dnd = () => {
                 >{task.title}</div>
             ));
     };
-    const handleDragStart = (e: React.DragEvent<HTMLDivElement>, taskId: number) => {
+    const handleDragStart = (e: React.DragEvent<HTMLDivElement>, taskId: string) => {
         e.dataTransfer.setData("text/plain", taskId.toString());
     }
 
@@ -45,7 +44,7 @@ const Dnd = () => {
         const taskId = e.dataTransfer.getData("text/plain");
         setTasks((prevTasks) => {
             return prevTasks.map(task => {
-                if (task.id === +taskId) {
+                if (task.id === taskId) {
                     return { ...task, status }
                 }
                 return task;
@@ -65,25 +64,25 @@ const Dnd = () => {
                 <div>
                     <h2 className="text-2xl font-bold sm:text-center">Todo</h2>
                     <div
-                        id="todo"
-                        onDrop={(e) => handleDrop(e, "todo")}
-                        onDragOver={(e) => handleDragOver(e, "todo")}
-                        className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded min-h-[200px] ${dropIndicator === 'todo' ? 'bg-blue-200' : ''
+                        id="new"
+                        onDrop={(e) => handleDrop(e, "new")}
+                        onDragOver={(e) => handleDragOver(e, "new")}
+                        className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded min-h-[200px] ${dropIndicator === 'new' ? 'bg-blue-200' : ''
                             }`}
                     >
-                        {renderTasks("todo")}
+                        {renderTasks("new")}
                     </div>
                 </div>
                 <div>
                     <h2 className="text-2xl font-bold sm:text-center">In Progress</h2>
                     <div
-                        id="in-progress"
-                        onDrop={(e) => handleDrop(e, "in-progress")}
-                        onDragOver={(e) => handleDragOver(e, "in-progress")}
-                        className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded min-h-[200px] ${dropIndicator === 'in-progress' ? 'bg-blue-200' : ''
+                        id="ongoing"
+                        onDrop={(e) => handleDrop(e, "ongoing")}
+                        onDragOver={(e) => handleDragOver(e, "ongoing")}
+                        className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded min-h-[200px] ${dropIndicator === 'ongoing' ? 'bg-blue-200' : ''
                             }`}
                     >
-                        {renderTasks("in-progress")}
+                        {renderTasks("ongoing")}
                     </div>
                 </div>
 
