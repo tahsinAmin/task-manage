@@ -1,4 +1,4 @@
-import { taskProp } from "../types/types";
+import { taskProp } from "../types";
 
 const Card = ({ task, moveTask, state }: { task: taskProp, moveTask: (task: taskProp, state: number) => void, state: number }) => {
     return (
