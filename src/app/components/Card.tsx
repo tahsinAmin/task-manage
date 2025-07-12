@@ -2,7 +2,7 @@ import { taskProp } from "../types/types";
 
 const Card = ({ task, moveTask, state }: { task: taskProp, moveTask: (task: taskProp, state: number) => void, state: number }) => {
     return (
-        <li className="bg-black bg-opacity-80 rounded-[20px] shadow-xl p-3 w-[345px] relative overflow-hidden border-2 border-purple-500" onClick={() => moveTask(task, state)}>
+        <li className="bg-black bg-opacity-80 rounded-[20px] shadow-xl p-3 xl:w-[345px] relative overflow-hidden border-2 border-purple-500" onClick={() => moveTask(task, state)}>
             <div className="absolute inset-0 bg-gradient-to-br from-purple-800 to-indigo-900 opacity-30 rounded-2xl"></div>
             <div className="relative z-10">
                 <span className="inline-block bg-indigo-600 text-indigo-300 text-xs px-2 py-1 rounded-full mb-4 shadow-md">

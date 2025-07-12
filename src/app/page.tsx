@@ -48,8 +48,8 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-4 w-full mx-auto">
-      <div className="flex flex-col gap-4 p-4">
+    <div className="w-screen md:max-w-7xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
+      <div className="flex flex-col gap-4">
 
         <div className="flex justify-center">
           <form onSubmit={handleSubmit} className="flex flex-col gap-2 border border-4 border-gray-300 rounded-3xl p-4 sm:w-1/2">
