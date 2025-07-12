@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { taskProp } from "../types/types"
+import { taskProp } from "../types"
 import Column from "./Column"
 import { doneDemoTasks, newDemoTasks, ongoingDemoTasks } from "../utils"
 import { Navbar } from "./Navbar"
