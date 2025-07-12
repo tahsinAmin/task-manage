@@ -8,6 +8,13 @@ import { Navbar } from "./Navbar"
 import { AddTaskModal } from "./AddTaskModal"
 import { TaskDetailsModal } from "./TaskDetailsModal"
 
+const state = {
+    new: 0,
+    ongoing: 1,
+    done: 2
+}
+
+
 export const Board = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -68,9 +75,9 @@ export const Board = () => {
     }
   }
 
-  const moveTask = (task: taskProp, state: number) => {
+  const moveTask = (task: taskProp) => {
     setItemSelected(task)
-    setActiveTag(state);
+    setActiveTag(state[task.status as keyof typeof state]);
     setDisplayOptions(true)
   }
 
@@ -79,7 +86,7 @@ export const Board = () => {
   return (
     <div className="">
       <Navbar setIsModalOpen={setIsModalOpen}/>
-
+      
       <div className="w-screen md:max-w-7xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
         <div className="flex flex-col gap-4">
 
@@ -134,9 +141,9 @@ export const Board = () => {
           }
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Column title="New" tasks={newTask} state={0} moveTask={moveTask} />
-              <Column title="Ongoing" tasks={ongoing} state={1} moveTask={moveTask} />
-              <Column title="Done" tasks={done} state={2} moveTask={moveTask} />
+              <Column title="New" tasks={newTask} moveTask={moveTask} />
+              <Column title="Ongoing" tasks={ongoing} moveTask={moveTask} />
+              <Column title="Done" tasks={done} moveTask={moveTask} />
             </div>
           </div>
         </div>

@@ -1,11 +1,11 @@
 import { taskProp } from "../types";
 const dateTodayString = new Date().toDateString();
 
-const Card = ({ task, moveTask, state }: { task: taskProp, moveTask: (task: taskProp, state: number) => void, state: number }) => {
+const Card = ({ task, moveTask }: { task: taskProp, moveTask: (task: taskProp) => void }) => {
     const dateString = new Date(task.dueDate).toDateString()
     
     return (
-        <li className=" rounded-[20px] shadow-xl p-3 xl:w-[345px] relative overflow-hidden border-2 border-gray-200" onClick={() => moveTask(task, state)}>
+        <li className=" rounded-[20px] shadow-xl p-3 xl:w-[345px] relative overflow-hidden border-2 border-gray-200" onClick={() => moveTask(task)}>
             <div className="absolute inset-0 rounded-2xl"></div>
             <div className="relative z-10">
                 <span className={`inline-block tag-${task.status} text-xs px-2 py-1 rounded-full mb-4 shadow-md capitalize`}>
