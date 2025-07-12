@@ -2,12 +2,27 @@ import { taskProp } from "../types/types";
 
 const Card = ({ task, moveTask, state }: { task: taskProp, moveTask: (task: taskProp, state: number) => void, state: number }) => {
     return (
-        <li className="flex flex-col gap-2 border border-4 border-gray-300 rounded-3xl p-4">
-            <div className="tag border border-gray-300 rounded-full p-2 display-inline w-fit">{task.status}</div>
-            <time className="block text-sm leading-6 text-gray-500 dark:text-gray-400">{task.dueDate}</time>
-            <h2 className="mt-2 text-lg font-semibold text-gray-900 dark:text-gray-200">{task.title}</h2>
-            <p className="mt-4 line-clamp-2 text-sm leading-6 text-gray-500 dark:text-gray-400">{task.description}</p>
-            <button onClick={() => moveTask(task, state)}>Move</button>
+        <li className="bg-black bg-opacity-80 rounded-[20px] shadow-xl p-3 w-[345px] relative overflow-hidden border-2 border-purple-500" onClick={() => moveTask(task, state)}>
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-800 to-indigo-900 opacity-30 rounded-2xl"></div>
+            <div className="relative z-10">
+                <span className="inline-block bg-indigo-600 text-indigo-300 text-xs px-2 py-1 rounded-full mb-4 shadow-md">
+                {task.status}
+                </span>
+
+                <h2 className="text-white text-md font-bold mb-2 leading-tight">
+                    {task.title}
+                </h2>
+
+                <p className="text-gray-300 text-base mb-5 line-clamp-2">
+                    {task.description}
+                </p>
+
+                <div className="flex items-center justify-end">
+                    <div className="flex items-center text-gray-400">
+                        <span className="text-sm font-medium mr-2">{task.dueDate}</span>
+                    </div>
+                </div>
+            </div>
         </li>
     )
 }
