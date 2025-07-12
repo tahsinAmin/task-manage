@@ -1,4 +1,4 @@
-// import "./ContextMenu.css";
+import "./ContextMenu.css";
 
 export const ContextMenu = ({
     rightClickItem,
