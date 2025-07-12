@@ -9,7 +9,7 @@ const Card = ({ task, moveTask, state }: { task: taskProp, moveTask: (task: task
                 {task.status}
                 </span>
 
-                <h2 className="text-md font-bold mb-2 leading-tight">
+                <h2 className="text-md font-bold mb-2 leading-tight line-clamp-1">
                     {task.title}
                 </h2>
 
