@@ -14,22 +14,31 @@ const Dnd = () => {
         { id: 2, title: "Task 2", status: "todo" },
         { id: 3, title: "Task 3", status: "todo" }
     ])
-
+    
     const [dropIndicator, setDropIndicator] = useState<string | null>(null);
     
+    const renderTasks = (status: string) => {
+        return tasks
+            .filter(task => task.status === status)
+            .map(task => (
+                 <div
+                    key={task.id}
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, task.id)}
+                    onDragEnd={(e) => handleDragEnd(e)}
+                    className="w-full p-2 bg-gray-100 rounded"
+                >{task.title}</div>
+            ));
+    };
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>, taskId: number) => {
         e.dataTransfer.setData("text/plain", taskId.toString());
     }
-
+    
     const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
         e.dataTransfer.clearData();
         setDropIndicator(null);
     }
 
-    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        setDropIndicator(e.currentTarget.id);
-    }
 
     const handleDrop = (e: React.DragEvent<HTMLDivElement>, status: string) => {
         e.preventDefault();
@@ -42,31 +51,12 @@ const Dnd = () => {
                 return task;
             })
         });
-        setDropIndicator(null);
     }
 
-    const renderTasks = (status: string) => {
-        console.log(tasks);
-        return tasks.filter(task => task.status === status)
-            .map(task => {
-                return <div
-                 key={task.id}
-                 draggable
-                 onDragStart={(e) => {
-                    handleDragStart(e, task.id)
-                }}
-                onDragEnd={(e) => {
-                    handleDragEnd(e)
-                }}
-                onDragOver={(e) => {
-                    handleDragOver(e)
-                }}
-                onDrop={(e) => {
-                    handleDrop(e)
-                }}
-                className="w-full p-2 bg-gray-100 rounded"
-                >{task.title}</div>
-            })
+    
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>, status: string) => {
+        e.preventDefault();
+        setDropIndicator(status);
     }
 
     return (
@@ -79,22 +69,30 @@ const Dnd = () => {
                 <div
                     id="todo"
                     onDrop={(e) => handleDrop(e, "todo")}
-                    className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded ${dropIndicator === 'todo' ? 'bg-blue-200' : ''
-                        }`}
+                    onDragOver={(e) => handleDragOver(e, "todo")}
+                    className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded ${
+                        dropIndicator === 'todo' ? 'bg-blue-200' : ''
+                    }`}
                 >
                     {renderTasks("todo")}
                 </div>
                 <div
                     id="in-progress"
-                    className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded ${dropIndicator === 'in-progress' ? 'bg-blue-200' : ''
-                        }`}
+                    onDrop={(e) => handleDrop(e, "in-progress")}
+                    onDragOver={(e) => handleDragOver(e, "in-progress")}
+                    className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded ${
+                        dropIndicator === 'in-progress' ? 'bg-blue-200' : ''
+                    }`}
                 >
                     {renderTasks("in-progress")}
                 </div>
 
                 <div id="done"
-                    className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded ${dropIndicator === 'done' ? 'bg-blue-200' : ''
-                        }`}
+                    onDrop={(e) => handleDrop(e, "done")}
+                    onDragOver={(e) => handleDragOver(e, "done")}
+                    className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded ${
+                        dropIndicator === 'done' ? 'bg-blue-200' : ''
+                    }`}
                 >
                     {renderTasks("done")}
                 </div>
