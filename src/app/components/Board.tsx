@@ -31,8 +31,18 @@ export const Board = () => {
 
   const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const newItem = { id: crypto.randomUUID(), title: e.currentTarget.task.value, status: "new", description: e.currentTarget.description.value, dueDate: "" };
-    setNewTask([newItem, ...newTask])
+
+    let newOngoing = [...ongoing]
+
+    for (let i = 0; i < newOngoing.length; i++) {
+      if (newOngoing[i].id === itemSelected?.id) {
+        newOngoing[i].title = e.currentTarget.task.value;
+        newOngoing[i].description = e.currentTarget.description.value;
+        newOngoing[i].dueDate = e.currentTarget.dueDate.value;
+      }
+    }
+
+    setOngoing(newOngoing)
     e.currentTarget.task.value = ""
     e.currentTarget.description.value = ""
     e.currentTarget.dueDate.value = ""
@@ -69,12 +79,12 @@ export const Board = () => {
   return (
     <div className="">
       <Navbar setIsModalOpen={setIsModalOpen}/>
-      
+
       <div className="w-screen md:max-w-7xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
         <div className="flex flex-col gap-4">
 
         <AddTaskModal handleSubmit={handleSubmit} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
-        <TaskDetailsModal item={itemSelected!} onVerify={handleUpdate} isModalOpen={isUpdateModalOpen} setIsModalOpen={setIsUpdateModalOpen}/>
+        <TaskDetailsModal itemSelected={itemSelected!} onVerify={handleUpdate} isModalOpen={isUpdateModalOpen} setIsModalOpen={setIsUpdateModalOpen}/>
           {
             displayOptions &&
             <div className="bg-white rounded-xl shadow-lg p-4 w-full max-w-sm mx-auto">
@@ -111,7 +121,14 @@ export const Board = () => {
                   <span className="text-gray-800 text-sm font-medium">Task Details</span>
                 </div>
               </div>
-
+              <div className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors duration-200" onClick={() => setDisplayOptions(false)}>
+                <div className="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-5 w-5 text-gray-500 mr-3">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                  </svg>
+                  <span className="text-gray-800 text-sm font-medium">Close Option</span>
+                </div>
+              </div>
 
             </div>
           }

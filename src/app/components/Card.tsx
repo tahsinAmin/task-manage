@@ -1,6 +1,9 @@
 import { taskProp } from "../types";
+const dateTodayString = new Date().toDateString();
 
 const Card = ({ task, moveTask, state }: { task: taskProp, moveTask: (task: taskProp, state: number) => void, state: number }) => {
+    const dateString = new Date(task.dueDate).toDateString()
+    
     return (
         <li className=" rounded-[20px] shadow-xl p-3 xl:w-[345px] relative overflow-hidden border-2 border-gray-200" onClick={() => moveTask(task, state)}>
             <div className="absolute inset-0 rounded-2xl"></div>
@@ -19,7 +22,7 @@ const Card = ({ task, moveTask, state }: { task: taskProp, moveTask: (task: task
 
                 <div className="flex items-center justify-end">
                     <div className="flex items-center text-gray-400">
-                        <span className="text-sm font-medium mr-2">{task.dueDate}</span>
+                        <span className={`text-sm font-medium mr-2 ${dateString === dateTodayString ? 'text-red-500' : ''}`}>{dateString}</span>
                     </div>
                 </div>
             </div>

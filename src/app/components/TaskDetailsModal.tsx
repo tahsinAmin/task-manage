@@ -1,18 +1,31 @@
 import { useEffect, useState } from "react";
 import { taskProp } from "../types";
 
-export const TaskDetailsModal = ({ item, onVerify, isModalOpen, setIsModalOpen }: { item: taskProp, onVerify: (e: React.FormEvent<HTMLFormElement>) => void, isModalOpen: boolean, setIsModalOpen: (value: boolean) => void }) => {
-    if (!item) return null;
+export const TaskDetailsModal = ({ itemSelected, onVerify, isModalOpen, setIsModalOpen }: { itemSelected: taskProp, onVerify: (e: React.FormEvent<HTMLFormElement>) => void, isModalOpen: boolean, setIsModalOpen: (value: boolean) => void }) => {
+    const [title, setTitle] = useState(itemSelected?.title ?? '');
+    const [description, setDescription] = useState(itemSelected?.description ?? '');
+    const [dueDate, setDueDate] = useState(itemSelected?.dueDate ? new Date(itemSelected.dueDate).toISOString().split('T')[0] : '');
+    const [minDate, setMinDate] = useState('');
 
     useEffect(() => {
-        setTitle(item.title);
-        setDescription(item.description);
-        setDueDate(item.dueDate);
-    }, [item])
-    const [title, setTitle] = useState(item.title);
-    const [description, setDescription] = useState(item.description);
-    const [dueDate, setDueDate] = useState(item.dueDate);
+        if (itemSelected) {
+            setTitle(itemSelected.title);
+            setDescription(itemSelected.description);
+            setDueDate(itemSelected.dueDate ? new Date(itemSelected.dueDate).toISOString().split('T')[0] : '');
+        }
+    }, [itemSelected]);
 
+    useEffect(() => {
+        // Get today's date in YYYY-MM-DD format
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+        const day = String(today.getDate()).padStart(2, '0');
+    
+        const formattedToday = `${year}-${month}-${day}`;
+        setMinDate(formattedToday);
+      }, [])
+    
     const closeModal = () => {
         setIsModalOpen(false);
         // Optionally reset form fields when closing the modal
@@ -31,7 +44,7 @@ export const TaskDetailsModal = ({ item, onVerify, isModalOpen, setIsModalOpen }
                         {/* Modal Overlay */}
                         <div
                             className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
-                            onClick={closeModal} // Close modal when clicking outside
+                            onClick={closeModal}
                         ></div>
 
                         {/* Modal Content */}
@@ -105,6 +118,7 @@ export const TaskDetailsModal = ({ item, onVerify, isModalOpen, setIsModalOpen }
                                             id="dueDate"
                                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                             required
+                                            min={minDate}
                                             value={dueDate}
                                             onChange={(e) => setDueDate(e.target.value)}
                                             />
