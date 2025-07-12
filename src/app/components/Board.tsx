@@ -6,6 +6,7 @@ import Column from "./Column"
 import { doneDemoTasks, newDemoTasks, ongoingDemoTasks } from "../utils"
 import { Navbar } from "./Navbar"
 import { Modal } from "./Modal"
+import Dnd from "./dnd"
 
 export const Board = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,7 +58,6 @@ export const Board = () => {
   return (
     <div className="">
       <Navbar setIsModalOpen={setIsModalOpen}/>
-      
       <div className="w-screen md:max-w-7xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
         <div className="flex flex-col gap-4">
 
@@ -94,6 +94,7 @@ export const Board = () => {
             </div>
           }
           <div className="flex flex-col gap-4">
+          <Dnd />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <Column title="New" tasks={newTask} state={0} moveTask={moveTask} />
               <Column title="Ongoing" tasks={ongoing} state={1} moveTask={moveTask} />
