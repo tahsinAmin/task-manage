@@ -4,6 +4,7 @@ import { useState } from "react"
 import { taskProp } from "./types/types"
 import Column from "./components/Column"
 import { doneDemoTasks, newDemoTasks, ongoingDemoTasks } from "./utils"
+import { AddTaskForm } from "./components/AddTaskForm"
 
 export default function Home() {
   const [newTask, setNewTask] = useState<taskProp[]>(newDemoTasks)
@@ -51,15 +52,8 @@ export default function Home() {
     <div className="w-screen md:max-w-7xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
       <div className="flex flex-col gap-4">
 
-        <div className="flex justify-center">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-2 border border-4 border-gray-300 rounded-3xl p-4 sm:w-1/2">
-            <div className="tag border border-gray-300 rounded-full p-2 display-inline w-fit">New Task</div>
-            <input required placeholder="Enter title" name="task" className="border border-gray-300 rounded p-2" />
-            <textarea placeholder="Enter description" name="description" className="border border-gray-300 rounded p-2" />
-            <input type="date" name="dueDate" className="border border-gray-300 rounded p-2" />
-            <input type="submit" value="Add" className="border border-gray-300 rounded p-2" />
-          </form>
-        </div>
+      <AddTaskForm handleSubmit={handleSubmit}/>
+
         {
           displayOptions &&
           <div className="bg-white rounded-xl shadow-lg p-4 w-full max-w-sm mx-auto">
