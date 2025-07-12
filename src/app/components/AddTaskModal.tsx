@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const Modal = ({ handleSubmit, isModalOpen, setIsModalOpen }: { handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void, isModalOpen: boolean, setIsModalOpen: (value: boolean) => void }) => {
+export const AddTaskModal = ({ handleSubmit, isModalOpen, setIsModalOpen }: { handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void, isModalOpen: boolean, setIsModalOpen: (value: boolean) => void }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [dueDate, setDueDate] = useState('');

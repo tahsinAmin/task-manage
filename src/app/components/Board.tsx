@@ -5,7 +5,7 @@ import { taskProp } from "../types"
 import Column from "./Column"
 import { doneDemoTasks, newDemoTasks, ongoingDemoTasks } from "../utils"
 import { Navbar } from "./Navbar"
-import { Modal } from "./Modal"
+import { AddTaskModal } from "./AddTaskModal"
 
 export const Board = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,7 +61,7 @@ export const Board = () => {
       <div className="w-screen md:max-w-7xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
         <div className="flex flex-col gap-4">
 
-        <Modal handleSubmit={handleSubmit} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+        <AddTaskModal handleSubmit={handleSubmit} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
           {
             displayOptions &&
             <div className="bg-white rounded-xl shadow-lg p-4 w-full max-w-sm mx-auto">
