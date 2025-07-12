@@ -3,8 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
+  --background: #f0f2f5;
   --foreground: #171717;
+}
+
+.tag-new {
+  background-color: #dae1e7;
+}
+.tag-ongoing {
+  background-color: #e6c6b7;
+}
+.tag-done {
+  background-color: #b7d6cf;
 }
 
 @media (prefers-color-scheme: dark) {
