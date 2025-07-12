@@ -1,53 +1,40 @@
 "use client"
 import { useRef, useState } from "react";
-import { ContextMenu } from "./Components/ContextMenu";
+import { ContextMenu } from "./Components/ContextMenu/ContextMenu";
 
 export default function Home() {
-  const contextMenuref = useRef<HTMLMenuElement>(null);
+  const contextMenuRef = useRef<HTMLMenuElement>(null);
   const [contextMenu, setContextMenu] = useState({
     position: { x: 0, y: 0 },
     toggled: false,
   });
   const [people, setPeople] = useState([
-    {
-      id:1,
-      name: "John Doe",
-      age: 30,
-      selected: false,
-    },
-    {
-      id:2,
-      name: "Steve",
-      age: 25,
-      selected: false,
-    },
-    {
-      id:3,
-      name: "Jackson",
-      age: 30,
-      selected: false,
-    },
-    {
-      id:4,
-      name: "Stepheny",
-      age: 30,
-      selected: false,
-    },
+    { id:1, name: "John Doe", age: 30, selected: false },
+    { id:2, name: "Steve", age: 25, selected: false },
+    { id:3, name: "Jackson", age: 30, selected: false },
+    { id:4, name: "Stepheny", age: 30, selected: false },
   ]);
-  const handlecontextMenu = (e: React.MouseEvent, rightClickPerson: any) => {
+  
+  const handleOnContextMenu = (e: React.MouseEvent, rightClickPerson: any) => {
     e.preventDefault();
-    console.log(rightClickPerson);
+
+    const contextMenuAttr = contextMenuRef.current?.getBoundingClientRect();
+    const isLeft = e.clientX < window?.innerWidth / 2;
+
+
+    console.log('rightClickPerson', rightClickPerson);
   };
   return (
-    <div>
-      <h1>Home</h1>
+    <div className="App">
       <ul>
-        {people.map((person) => (
-          <li key={person.id} onContextMenu={(e) => handlecontextMenu(e, person)}>{person.name}</li>
+        {people.map((person, index) => (
+          <li onContextMenu={(e) => handleOnContextMenu(e, person)} key={index}>
+            {person.name}
+          </li>
         ))}
       </ul>
       <ContextMenu
-        contextMenuRef={contextMenuref}
+        contextMenuRef={contextMenuRef}
         isToggled={contextMenu.toggled}
         positionX={contextMenu.position.x}
         positionY={contextMenu.position.y}
