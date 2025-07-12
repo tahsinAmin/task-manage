@@ -1,4 +1,4 @@
-import { taskProp } from "../types/types"
+import { taskProp } from "../types"
 import Card from "./Card";
 
 interface ColumnProps {
