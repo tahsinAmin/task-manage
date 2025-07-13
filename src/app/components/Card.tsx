@@ -7,7 +7,7 @@ const Card = ({ task, moveTask, handleDragStart, handleDragEnd }: { task: taskPr
     return (
         <li draggable onDragStart={(e) => handleDragStart(e, task.id)}
         onDragEnd={(e) => handleDragEnd(e)}
-        className="rounded-[20px] shadow-xl p-3 xl:w-[345px] relative overflow-hidden border-2 border-gray-200" onClick={() => moveTask(task)}>
+        className="rounded-[20px] shadow-xl p-3 w-full xl:w-[345px] relative overflow-hidden border-2 border-gray-200" onClick={() => moveTask(task)}>
             <div className="absolute inset-0 rounded-2xl"></div>
             <div className="relative z-10">
                 <span className={`inline-block tag-${task.status} text-xs px-2 py-1 rounded-full mb-4 shadow-md capitalize`}>

@@ -86,7 +86,7 @@ export const Board = () => {
   return (
     <div className="">
       <Navbar setIsModalOpen={setIsModalOpen}/>
-      <div className="w-screen md:max-w-7xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
+      <div className="md:max-w-7xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
         <div className="flex flex-col gap-4">
 
         <AddTaskModal handleSubmit={handleSubmit} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
