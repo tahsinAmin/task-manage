@@ -4,8 +4,7 @@ import { useState, useEffect } from "react"
 import { taskProp } from "../types"
 import { demoTasks, populateData, state } from "../utils"
 import { Navbar } from "./Navbar"
-import { AddTaskModal } from "./AddTaskModal"
-import { TaskDetailsModal } from "./TaskDetailsModal"
+import { AddTaskModal, TaskDetailsModal } from "./Modals"
 import { OptionsListMenu } from "./OptionsListMenu"
 import Dnd from "./dnd"
 
@@ -13,8 +12,7 @@ import Dnd from "./dnd"
 
 const initialObjectsOfArray = populateData();
 
-export const Board = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   const [newTask, setNewTask] = useState<taskProp[]>(initialObjectsOfArray.new);
@@ -50,7 +48,7 @@ export const Board = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const newItem = { id: crypto.randomUUID(), title: e.currentTarget.task.value, status: "new", description: e.currentTarget.description.value, dueDate: "" };
+    const newItem = { id: crypto.randomUUID(), title: e.currentTarget.task.value, status: "new" as const, description: e.currentTarget.description.value, dueDate: "" };
     setTasks([newItem, ...tasks]);
     e.currentTarget.task.value = "";
     e.currentTarget.description.value = "";
@@ -105,8 +103,6 @@ export const Board = () => {
 
   return (
     <div className="">
-      <Navbar setIsModalOpen={setIsModalOpen} />
-
       <div className="md:max-w-6xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
         <div className="flex flex-col gap-4">
 

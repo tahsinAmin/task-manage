@@ -1,3 +1,4 @@
+import React from "react";
 import { taskProp } from "../types";
 import { useDrag } from "../hooks/useDrag";
 const dateToday = new Date().setHours(0, 0, 0, 0);
@@ -46,4 +47,4 @@ const Card = ({ task, moveTask }: { task: taskProp, moveTask: (task: taskProp) =
   );
 };
 
-export default Card;
+export default React.memo(Card);
