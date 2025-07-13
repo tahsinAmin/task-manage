@@ -1,38 +1,57 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { taskProp } from "../types"
-import {initialObjectsOfArray } from "../utils"
+import {populateData, state } from "../utils"
 import { Navbar } from "./Navbar"
 import { AddTaskModal } from "./AddTaskModal"
 import { TaskDetailsModal } from "./TaskDetailsModal"
 import Dnd from "./dnd"
 
-const state = {
-    new: 0,
-    ongoing: 1,
-    done: 2
-}
 
+
+const initialObjectsOfArray = populateData();
 
 export const Board = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
-  const [newTask, setNewTask] = useState<taskProp[]>(initialObjectsOfArray.new)
-  const [ongoing, setOngoing] = useState<taskProp[]>(initialObjectsOfArray.ongoing)
-  const [done, setDone] = useState<taskProp[]>(initialObjectsOfArray.done)
-  const [activeTag, setActiveTag] = useState<number>(-1)
-  const [displayOptions, setDisplayOptions] = useState<boolean>(false)
-  const [itemSelected, setItemSelected] = useState<taskProp | null>(null)
+  const [newTask, setNewTask] = useState<taskProp[]>(initialObjectsOfArray.new);
+  const [ongoing, setOngoing] = useState<taskProp[]>(initialObjectsOfArray.ongoing);
+  const [done, setDone] = useState<taskProp[]>(initialObjectsOfArray.done);
+  const [activeTag, setActiveTag] = useState<number>(-1);
+  const [displayOptions, setDisplayOptions] = useState<boolean>(false);
+  const [itemSelected, setItemSelected] = useState<taskProp | null>(null);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const localNew = localStorage.getItem("newTask");
+    const localOngoing = localStorage.getItem("ongoing");
+    const localDone = localStorage.getItem("done");
+    if (localNew) setNewTask(JSON.parse(localNew));
+    if (localOngoing) setOngoing(JSON.parse(localOngoing));
+    if (localDone) setDone(JSON.parse(localDone));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("newTask", JSON.stringify(newTask));
+  }, [newTask]);
+
+  useEffect(() => {
+    localStorage.setItem("ongoing", JSON.stringify(ongoing));
+  }, [ongoing]);
+
+  useEffect(() => {
+    localStorage.setItem("done", JSON.stringify(done));
+  }, [done]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const newItem = { id: crypto.randomUUID(), title: e.currentTarget.task.value, status: "new", description: e.currentTarget.description.value, dueDate: "" };
-    setNewTask([newItem, ...newTask])
-    e.currentTarget.task.value = ""
-    e.currentTarget.description.value = ""
-    e.currentTarget.dueDate.value = ""
+    setNewTask([newItem, ...newTask]);
+    e.currentTarget.task.value = "";
+    e.currentTarget.description.value = "";
+    e.currentTarget.dueDate.value = "";
     setIsModalOpen(false)
   }
 
@@ -58,15 +77,15 @@ export const Board = () => {
     }
 
     if (itemSelected?.status === "ongoing") {
-      setOngoing(newArrOfObjects)
+      setOngoing(newArrOfObjects);
     } else if (itemSelected?.status === "done") {
-      setDone(newArrOfObjects)
+      setDone(newArrOfObjects);
     } else {
-      setNewTask(newArrOfObjects)
+      setNewTask(newArrOfObjects);
     }
-    e.currentTarget.task.value = ""
-    e.currentTarget.description.value = ""
-    e.currentTarget.dueDate.value = ""
+    e.currentTarget.task.value = "";
+    e.currentTarget.description.value = "";
+    e.currentTarget.dueDate.value = "";
     setIsUpdateModalOpen(false)
   }
 
