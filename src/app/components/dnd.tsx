@@ -13,7 +13,7 @@ interface Task {
     dueDate: string;
 }
 
-const Dnd = ({moveTask, tasks, setTasks}: {moveTask: (task: taskProp) => void, tasks: taskProp[], setTasks: (tasks: taskProp[]) => void}) => {
+const Dnd = ({ moveTask, tasks, setTasks }: { moveTask: (task: taskProp) => void, tasks: taskProp[], setTasks: (updater: taskProp[] | ((prevTasks: taskProp[]) => taskProp[])) => void }) => {
 
     const [dropIndicator, setDropIndicator] = useState<string | null>(null);
 
@@ -30,8 +30,8 @@ const Dnd = ({moveTask, tasks, setTasks}: {moveTask: (task: taskProp) => void, t
     const getDropProps = (status: string) => {
         return useDrop({
             onDrop: (_e, taskId) => {
-                setTasks(prevTasks => {
-                    const newTasks = [...prevTasks];
+                setTasks((prevTasks: taskProp[]) => {
+                    const newTasks: taskProp[] = [...prevTasks];
                     const taskIndex = newTasks.findIndex((task) => task.id === taskId);
                     if (taskIndex === -1) return newTasks;
                     const taskToMove = newTasks[taskIndex];
