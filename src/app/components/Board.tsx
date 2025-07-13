@@ -114,29 +114,25 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
 
 
   return (
-    <div className="">
-      <div className="md:max-w-6xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
-        <div className="flex flex-col gap-4">
+    <div role="main" className="md:max-w-6xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
+      <div className="flex flex-col gap-4">
 
-          <AddTaskModal handleSubmit={handleSubmit} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-          <TaskDetailsModal itemSelected={itemSelected!} onVerify={handleUpdate} isModalOpen={isUpdateModalOpen} setIsModalOpen={setIsUpdateModalOpen} />
+        <AddTaskModal handleSubmit={handleSubmit} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        <TaskDetailsModal itemSelected={itemSelected!} onVerify={handleUpdate} isModalOpen={isUpdateModalOpen} setIsModalOpen={setIsUpdateModalOpen} />
 
-          {displayOptions &&
-            <OptionsListMenu
-              activeTag={activeTag}
-              shiftTask={shiftTask}
-              itemSelected={itemSelected!}
-              setIsUpdateModalOpen={setIsUpdateModalOpen}
-              setDisplayOptions={setDisplayOptions}
-            />
-          }
-          <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
-              <Column title="New" tasks={newTask} moveTask={moveTask} />
-              <Column title="Ongoing" tasks={ongoing} moveTask={moveTask} />
-              <Column title="Done" tasks={done} moveTask={moveTask} />
-            </div>
-          </div>
+        {displayOptions &&
+          <OptionsListMenu
+            activeTag={activeTag}
+            shiftTask={shiftTask}
+            itemSelected={itemSelected!}
+            setIsUpdateModalOpen={setIsUpdateModalOpen}
+            setDisplayOptions={setDisplayOptions}
+          />
+        }
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
+          <Column title="New" tasks={newTask} moveTask={moveTask} />
+          <Column title="Ongoing" tasks={ongoing} moveTask={moveTask} />
+          <Column title="Done" tasks={done} moveTask={moveTask} />
         </div>
       </div>
     </div>

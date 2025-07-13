@@ -9,7 +9,8 @@ const Card = ({ task, moveTask }: { task: taskProp, moveTask: (task: taskProp) =
 
   return (
     <li
-      className="h-[169px] rounded-[20px] shadow-xl p-3 w-full md:w-[345px] relative overflow-hidden border-2 border-gray-200"
+      role="listitem"
+      className="h-[169px] rounded-[20px] shadow-xl p-3 w-full xl:w-[345px] relative overflow-hidden border-2 border-gray-200"
       onClick={() => moveTask(task)}
     >
       <div className="absolute inset-0 rounded-2xl"></div>
