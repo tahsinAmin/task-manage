@@ -1,12 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { taskProp } from "../types"
-import {populateData, state } from "../utils"
-import { Navbar } from "./Navbar"
-import { AddTaskModal } from "./AddTaskModal"
-import { TaskDetailsModal } from "./TaskDetailsModal"
-import Dnd from "./dnd"
+import { useState, useEffect } from "react";
+import { taskProp } from "../types";
+import {populateData, state } from "../utils";
+import { Navbar } from "./Navbar";
+import { AddTaskModal } from "./AddTaskModal";
+import { TaskDetailsModal } from "./TaskDetailsModal";
+import Dnd from "./dnd";
 
 
 

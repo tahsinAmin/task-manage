@@ -1,5 +1,5 @@
-import { Board } from "./Components/Board";
-import ContextMenu from "./Components/ContextMenu/ContextMenu";
+import { Board } from "./components/Board";
+import ContextMenu from "./components/ContextMenu/ContextMenu";
 
 export default function Home() {
 
