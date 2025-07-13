@@ -3,7 +3,7 @@ import { taskProp } from "../types";
 import { useDrag } from "../hooks/useDrag";
 const dateToday = new Date().setHours(0, 0, 0, 0);
 
-const Card = ({ task, moveTask }: { task: taskProp, moveTask: (task: taskProp) => void }) => {
+const Card = ({ task, moveTask, handleOnContextMenu }: { task: taskProp, moveTask: (task: taskProp) => void, handleOnContextMenu: (e: React.MouseEvent, task: taskProp) => void }) => {
   const { handleDragStart, handleDragEnd } = useDrag({});
   const cardDate = new Date(task.dueDate);
   const dateString = cardDate.setHours(0, 0, 0, 0);
@@ -12,7 +12,8 @@ const Card = ({ task, moveTask }: { task: taskProp, moveTask: (task: taskProp) =
   return (
     <li
       role="listitem"
-      className="h-[169px] rounded-[20px] shadow-xl p-3 w-full xl:w-[345px] relative overflow-hidden border-2 border-gray-200"
+      className={`h-[169px] rounded-[20px] shadow-xl p-3 w-full xl:w-[345px] relative overflow-hidden border-2 border-gray-200 ${task.selected ? "selected" : ""}`}
+      onContextMenu={(e) => handleOnContextMenu(e, task)}
       onClick={() => moveTask(task)}
       draggable onDragStart={(e) => handleDragStart(e, task.id)} onDragEnd={(e) => handleDragEnd(e)}
     >

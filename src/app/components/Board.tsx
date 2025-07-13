@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import "./ContextMenu/ContextMenu.css";
+import { useState, useEffect, useRef } from "react";
 import { taskProp } from "../types"
 import { demoTasks, populateData, state } from "../utils"
 import { AddTaskModal, TaskDetailsModal } from "./Modals"
