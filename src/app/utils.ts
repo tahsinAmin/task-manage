@@ -41,7 +41,7 @@ export const projectData: {
             title: "Investigate Database Performance Bottleneck",
             status: "ongoing",
             description: "Analyzing slow query logs on the production database, specifically for the `customer_transactions` table. Initial findings suggest a missing index on the `transaction_date` column, which is being investigated for implementation.",
-            dueDate: "2025-07-13" // Today"s date
+            dueDate: "2025-07-11" // Today"s date
         },
         {
             id: "6",
