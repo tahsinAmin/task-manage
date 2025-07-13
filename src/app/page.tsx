@@ -1,11 +1,15 @@
 "use client"
-import { useRef, useState } from "react";
+
+import { useEffect, useRef, useState } from "react";
 import { ContextMenu } from "./Components/ContextMenu/ContextMenu";
 
 export default function Home() {
   const contextMenuRef = useRef<HTMLMenuElement>(null);
   const [contextMenu, setContextMenu] = useState({
-    position: { x: 0, y: 0 },
+    position: { 
+      x: 0,
+      y: 0 
+    },
     toggled: false,
   });
   const [people, setPeople] = useState([
@@ -15,23 +19,82 @@ export default function Home() {
     { id:4, name: "Stepheny", age: 30, selected: false },
   ]);
   
-  const handleOnContextMenu = (e: React.MouseEvent, rightClickPerson: any) => {
+  const handleOnContextMenu = (e: React.MouseEvent, rightClickedPerson: any) => {
     e.preventDefault();
 
     const contextMenuAttr = contextMenuRef.current?.getBoundingClientRect();
     const isLeft = e.clientX < window?.innerWidth / 2;
+    let x
+    let y =  e.clientY
 
-
-    console.log('rightClickPerson', rightClickPerson);
+    if (isLeft) {
+      x = e.clientX
+    } else {
+      x = e.clientX - contextMenuAttr?.width
+    } 
+    
+    setContextMenu({
+      position: {
+        x, 
+        y
+      },
+      toggled: true,
+    });
+    
+    
+    // Update the selected state for the person
+    setPeople(
+      people.map(person => ({
+      ...person,
+      selected: person.id === rightClickedPerson.id
+    }))
+    );
+    console.log(rightClickedPerson);
   };
+
+  function resetContextMenu() {
+    setPeople(
+      people.map(person => ({
+      ...person,
+      selected: false
+    }))
+    );
+    setContextMenu({
+      position: { 
+        x: 0,
+        y: 0 
+      },
+      toggled: false,
+    });
+  }
+
+  useEffect(() => {
+    function handler (e) {
+      if (contextMenuRef.current) {
+        if (!contextMenuRef.current.contains(e.target)) {
+          resetContextMenu();
+        }
+      }
+    }
+    document.addEventListener("click", handler);
+    return () => {
+      document.removeEventListener("click", handler);
+    }
+  }, [contextMenu]);
   return (
     <div className="App">
       <ul>
-        {people.map((person, index) => (
-          <li onContextMenu={(e) => handleOnContextMenu(e, person)} key={index}>
+        {people.map((person, index) => {
+          return (
+            <li
+            onContextMenu={(e) => handleOnContextMenu(e, person)}
+            key={index}
+            className={person.selected ? "selected" : ""}
+          >
             {person.name}
           </li>
-        ))}
+          )
+        })}
       </ul>
       <ContextMenu
         contextMenuRef={contextMenuRef}
@@ -42,13 +105,13 @@ export default function Home() {
           {
             text: "Do Something",
             icon: "😀",
-            onClick: () => console.log("Hello"),
+            onClick: () => alert("Hello"),
             isSpacer: false,
           },
           {
             text: "Do Something else",
             icon: "😀",
-            onClick: () => console.log("Bye"),
+            onClick: () => alert("Bye"),
             isSpacer: false,
           },
           {
@@ -60,11 +123,11 @@ export default function Home() {
           {
             text: "Do Something New",
             icon: "😀",
-            onClick: () => console.log("world"),
+            onClick: () => alert("world"),
             isSpacer: false,
           },
         ]}
-        rightClickItem={contextMenu.rightClickItem}
+        rightClickItem={contextMenu?.rightClickItem}
       />
     </div>
   );

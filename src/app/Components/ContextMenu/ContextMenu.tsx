@@ -1,4 +1,3 @@
-import React from "react";
 import "./ContextMenu.css";
 
 export const ContextMenu = ({
@@ -17,23 +16,25 @@ export const ContextMenu = ({
     contextMenuRef: React.RefObject<HTMLMenuElement>;
 }) => {
     return (
-        <menu 
-            style={{ top: positionY + 2 + 'px', left: positionX + 2 + 'px' }} 
+        <menu
+            style={{
+                top: positionY + 2 + 'px',
+                left: positionX + 2 + 'px',
+            }}
             className={`context-menu ${isToggled ? 'active' : ''}`}
             ref={contextMenuRef}
         >
             {buttons.map((button: any, index: number) => {
                 function handleClick(e: React.MouseEvent) {
                     e.stopPropagation();
-                    button.onClick(e,rightClickItem);
+                    button.onClick(e, rightClickItem);
                 }
 
-                if (button.isSpacer) return <hr key={index} />
+                if (button.isSpacer) return <hr key={index}></hr>
 
                 return (
-                    <button key={index} onClick={handleClick} className="context-menu-button">
-                        {button.text}
-                        <span>{button.text}</span>
+                    <button onClick={handleClick} key={index} className="context-menu-button">
+                         <span>{button.text}</span>
                         <span className="icon">{button.icon}</span>
                     </button>
                 );
