@@ -119,6 +119,5 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
           <Dnd moveTask={moveTask} tasks={tasks} setTasks={setTasks} />
         </div>
       </div>
-    </div>
   );
 }
