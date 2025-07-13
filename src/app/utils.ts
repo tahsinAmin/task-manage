@@ -1,4 +1,6 @@
-export const initialObjectsOfArray = {
+import { taskProp } from "./types";
+
+export const projectData = {
     new: [
         {
             id: "1",
@@ -62,3 +64,38 @@ export const initialObjectsOfArray = {
         }
     ]
 };
+
+export const state = {
+    new: 0,
+    ongoing: 1,
+    done: 2
+  }
+
+export const populateData = () => {
+    const localNew = localStorage.getItem("newTask");
+    const localOngoing = localStorage.getItem("ongoing");
+    const localDone = localStorage.getItem("done");
+
+    let initialObjectsOfArray = {
+        new: [] as taskProp[],
+        ongoing: [] as taskProp[],
+        done: [] as taskProp[]
+    }
+
+    if (localNew) {
+        initialObjectsOfArray.new = JSON.parse(localNew);
+    } else {
+        initialObjectsOfArray.new = initialObjectsOfArray.new;
+    }
+    if (localOngoing) {
+        initialObjectsOfArray.ongoing = JSON.parse(localOngoing);
+    } else {
+        initialObjectsOfArray.ongoing = initialObjectsOfArray.ongoing;
+    }
+    if (localDone) {
+        initialObjectsOfArray.done = JSON.parse(localDone);
+    } else {
+        initialObjectsOfArray.done = initialObjectsOfArray.done;
+    }
+    return initialObjectsOfArray
+}
