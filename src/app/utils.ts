@@ -50,7 +50,7 @@ export const projectData: {
         },
         {
             id: "6",
-            title: "Integrate Third-Party Payment Gateway",
+            title: "Third-Party Payment Gateway Integrate",
             status: "ongoing",
             description: "Implementing the Stripe API for processing credit card payments. This involves setting up payment intents, handling webhook events for transaction status updates, and integrating with the checkout flow. Currently testing sandbox transactions.",
             dueDate: "2025-07-18",
@@ -85,6 +85,8 @@ export const state = {
     done: 2
 }
 
+export const indexToStatus = ["new", "ongoing", "done"]
+
 const allowedStatuses = ["new", "ongoing", "done"] as const;
 export type Status = typeof allowedStatuses[number];
 
@@ -107,4 +109,4 @@ export const populateData = () => {
     return parseTasks(localAlltasks, demoTasks);
 }
 
-// export const populateData =  () => demoTasks;
+// export const populateData = () => demoTasks;

@@ -3,17 +3,18 @@
 import "./ContextMenu/ContextMenu.css";
 import { useState, useEffect, useRef } from "react";
 import { taskProp } from "../types"
-import { demoTasks, populateData, state } from "../utils"
+import { indexToStatus, populateData, state, Status } from "../utils"
 import { AddTaskModal, TaskDetailsModal } from "./Modals"
 import { OptionsListMenu } from "./OptionsListMenu"
+import { useModal } from "@/context/ModalContext"
 import Dnd from "./dnd"
 
 
 
 const initialTasks = populateData();
 
-export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+export const Board = () => {
+  const { setIsModalOpen, setIsUpdateModalOpen } = useModal();
 
   const [tasks, setTasks] = useState<taskProp[]>(initialTasks)
 
@@ -59,33 +60,27 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
         break;
       }
     }
-
-    setTasks(newArrOfObjects);
     setMovedToOngoing(false);
     e.currentTarget.task.value = "";
     e.currentTarget.description.value = "";
     e.currentTarget.dueDate.value = "";
     setIsUpdateModalOpen(false)
+    setTasks([...newArrOfObjects]);
   }
 
   const shiftTask = (index: number, task: taskProp) => {
     setDisplayOptions(false)
-    if (task.status === "new") {
-      setTasks(tasks.filter((task) => task.title !== task.title));
-    } else if (task.status === "ongoing") {
-      setTasks(tasks.filter((task) => task.title !== task.title));
-    } else {
-      setTasks(tasks.filter((task) => task.title !== task.title));
-    }
+    const taskStatus = indexToStatus[index] as Status;
+    const newTasks: taskProp[] = [...tasks];
+    const taskIndex = newTasks.findIndex((someTask) => someTask.id === task.id);
+    
+    newTasks.splice(taskIndex, 1);
+    newTasks.push({ ...newTasks[taskIndex], status: taskStatus });
+    setTasks(newTasks);
 
-    if (index === 0) {
-      setTasks([...tasks, { ...task, status: "new" }])
-    } else if (index === 1) {
-      setTasks([...tasks, { ...task, status: "ongoing" }])
+    if (taskStatus === "ongoing") {
       setItemSelected({ ...task, status: "ongoing" })
       setMovedToOngoing(true);
-    } else {
-      setTasks([...tasks, { ...task, status: "done" }])
     }
   }
 
@@ -97,15 +92,14 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
 
   return (
     <div role="main" className="md:max-w-6xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
-      <AddTaskModal handleSubmit={handleSubmit} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-      <TaskDetailsModal itemSelected={itemSelected!} onVerify={handleUpdate} isModalOpen={isUpdateModalOpen} setIsModalOpen={setIsUpdateModalOpen} />
+      <AddTaskModal handleSubmit={handleSubmit} />
+      <TaskDetailsModal itemSelected={itemSelected!} onVerify={handleUpdate} />
 
       {displayOptions &&
         <OptionsListMenu
           activeTag={activeTag}
           shiftTask={shiftTask}
           itemSelected={itemSelected!}
-          setIsUpdateModalOpen={setIsUpdateModalOpen}
           setDisplayOptions={setDisplayOptions}
         />
       }

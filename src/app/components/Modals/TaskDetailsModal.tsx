@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { taskProp } from "../../types";
+import { useModal } from "@/context/ModalContext";
 
-export const TaskDetailsModal = ({ itemSelected, onVerify, isModalOpen, setIsModalOpen }: { itemSelected: taskProp, onVerify: (e: React.FormEvent<HTMLFormElement>) => void, isModalOpen: boolean, setIsModalOpen: (value: boolean) => void }) => {
+export const TaskDetailsModal = ({ itemSelected, onVerify }: { itemSelected: taskProp, onVerify: (e: React.FormEvent<HTMLFormElement>) => void }) => {
+    const { isUpdateModalOpen, setIsUpdateModalOpen } = useModal();
     const [title, setTitle] = useState(itemSelected?.title ?? '');
     const [description, setDescription] = useState(itemSelected?.description ?? '');
     const [dueDate, setDueDate] = useState(itemSelected?.dueDate ? new Date(itemSelected.dueDate).toISOString().split('T')[0] : '');
@@ -27,7 +29,7 @@ export const TaskDetailsModal = ({ itemSelected, onVerify, isModalOpen, setIsMod
     }, [])
 
     const closeModal = () => {
-        setIsModalOpen(false);
+        setIsUpdateModalOpen(false);
         // Optionally reset form fields when closing the modal
         setTitle('');
         setDescription('');
@@ -36,7 +38,7 @@ export const TaskDetailsModal = ({ itemSelected, onVerify, isModalOpen, setIsMod
 
     return (
         <>
-            {isModalOpen ? (
+            {isUpdateModalOpen ? (
                 <>
 
                     {/* The Modal Component */}

@@ -1,4 +1,8 @@
-export const AddTaskModal = ({ handleSubmit, isModalOpen, setIsModalOpen }: { handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void, isModalOpen: boolean, setIsModalOpen: (value: boolean) => void }) => {
+import { useModal } from "@/context/ModalContext";
+
+export const AddTaskModal = ({ handleSubmit }: { handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void }) => {
+  const { isModalOpen, setIsModalOpen } = useModal();
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
