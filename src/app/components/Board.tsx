@@ -22,6 +22,7 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
   const [activeTag, setActiveTag] = useState<number>(-1);
   const [displayOptions, setDisplayOptions] = useState<boolean>(false);
   const [itemSelected, setItemSelected] = useState<taskProp | null>(null);
+  const [movedToOngoing, setMovedToOngoing] = useState<boolean>(false);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -45,6 +46,12 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
     localStorage.setItem("done", JSON.stringify(done));
   }, [done]);
 
+  useEffect(() => {
+    if (movedToOngoing) {
+      setIsUpdateModalOpen(true);
+    }
+  }, [movedToOngoing]);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const newItem = { id: crypto.randomUUID(), title: e.currentTarget.task.value, status: "new" as const, description: e.currentTarget.description.value, dueDate: "" };
@@ -62,13 +69,13 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
 
     for (let i = 0; i < newArrOfObjects.length; i++) {
       if (newArrOfObjects[i].id === itemSelected?.id) {
-        newArrOfObjects[i].title = e.currentTarget.task.value;
-        newArrOfObjects[i].description = e.currentTarget.description.value;
-        newArrOfObjects[i].dueDate = e.currentTarget.dueDate.value;
+        newArrOfObjects[i] = { ...newArrOfObjects[i], title: e.currentTarget.task.value, description: e.currentTarget.description.value, dueDate: e.currentTarget.dueDate.value }
+        break;
       }
     }
 
     setTasks(newArrOfObjects);
+    setMovedToOngoing(false);
     e.currentTarget.task.value = "";
     e.currentTarget.description.value = "";
     e.currentTarget.dueDate.value = "";
@@ -77,20 +84,22 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
 
   const shiftTask = (index: number, task: taskProp) => {
     setDisplayOptions(false)
+    if (task.status === "new") {
+      setNewTask(newTask.filter((newTask) => newTask.title !== task.title));
+    } else if (task.status === "ongoing") {
+      setOngoing(ongoing.filter((ongoing) => ongoing.title !== task.title));
+    } else {
+      setDone(done.filter((done) => done.title !== task.title));
+    }
+
     if (index === 0) {
       setNewTask([...newTask, { ...task, status: "new" }])
     } else if (index === 1) {
       setOngoing([...ongoing, { ...task, status: "ongoing" }])
+      setItemSelected({ ...task, status: "ongoing" })
+      setMovedToOngoing(true);
     } else {
       setDone([...done, { ...task, status: "done" }])
-    }
-
-    if (task.status === "new") {
-      setNewTask(newTask.filter((newTask) => newTask.title !== task.title))
-    } else if (task.status === "ongoing") {
-      setOngoing(ongoing.filter((ongoing) => ongoing.title !== task.title))
-    } else {
-      setDone(done.filter((done) => done.title !== task.title))
     }
   }
 

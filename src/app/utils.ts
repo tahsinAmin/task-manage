@@ -106,3 +106,6 @@ export const populateData = () => {
 }
 
 export const demoTasks = [...projectData.new, ...projectData.ongoing, ...projectData.done];
+
+
+// export const populateData =  () => projectData;

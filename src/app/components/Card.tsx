@@ -34,7 +34,7 @@ const Card = ({ task, moveTask }: { task: taskProp, moveTask: (task: taskProp) =
           <div className="flex items-center text-gray-400">
             <span
               className={`text-xs font-medium mr-2 ${
-                dateString < dateToday && task.status !== "done"
+                dateString === dateToday && task.status !== "done"
                   ? "text-red-500"
                   : ""
               }`}
