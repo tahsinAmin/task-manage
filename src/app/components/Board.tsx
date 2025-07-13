@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { taskProp } from "../types"
-import { demoTasks, populateData, state } from "../utils"
+import { indexToStatus, populateData, state, Status } from "../utils"
 import { AddTaskModal, TaskDetailsModal } from "./Modals"
 import { OptionsListMenu } from "./OptionsListMenu"
 import Dnd from "./dnd"
@@ -58,33 +58,27 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
         break;
       }
     }
-
-    setTasks(newArrOfObjects);
     setMovedToOngoing(false);
     e.currentTarget.task.value = "";
     e.currentTarget.description.value = "";
     e.currentTarget.dueDate.value = "";
     setIsUpdateModalOpen(false)
+    setTasks([...newArrOfObjects]);
   }
 
   const shiftTask = (index: number, task: taskProp) => {
     setDisplayOptions(false)
-    if (task.status === "new") {
-      setTasks(tasks.filter((task) => task.title !== task.title));
-    } else if (task.status === "ongoing") {
-      setTasks(tasks.filter((task) => task.title !== task.title));
-    } else {
-      setTasks(tasks.filter((task) => task.title !== task.title));
-    }
+    const taskStatus = indexToStatus[index] as Status;
+    const newTasks: taskProp[] = [...tasks];
+    const taskIndex = newTasks.findIndex((someTask) => someTask.id === task.id);
+    
+    newTasks.splice(taskIndex, 1);
+    newTasks.push({ ...newTasks[taskIndex], status: taskStatus });
+    setTasks(newTasks);
 
-    if (index === 0) {
-      setTasks([...tasks, { ...task, status: "new" }])
-    } else if (index === 1) {
-      setTasks([...tasks, { ...task, status: "ongoing" }])
+    if (taskStatus === "ongoing") {
       setItemSelected({ ...task, status: "ongoing" })
       setMovedToOngoing(true);
-    } else {
-      setTasks([...tasks, { ...task, status: "done" }])
     }
   }
 
