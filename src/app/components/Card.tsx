@@ -1,33 +1,43 @@
 import { taskProp } from "../types";
-const dateTodayString = new Date().toDateString();
+const dateToday = new Date().setHours(0, 0, 0, 0);
 
 const Card = ({ task, moveTask }: { task: taskProp, moveTask: (task: taskProp) => void }) => {
-    const dateString = new Date(task.dueDate).toDateString()
-    
-    return (
-        <li className=" h-[169px] rounded-[20px] shadow-xl p-3 xl:w-full relative overflow-hidden border-2 border-gray-200" onClick={() => moveTask(task)}>
-            <div className="absolute inset-0 rounded-2xl"></div>
-            <div className="relative z-10">
-                <span className={`inline-block tag-${task.status} text-xs px-2 py-1 rounded-full mb-4 shadow-md capitalize`}>
-                {task.status}
-                </span>
+  const cardDate = new Date(task.dueDate);
+  const dateString = cardDate.setHours(0, 0, 0, 0);
+  const cardDateString = cardDate.toDateString();
 
-                <h2 className="text-md font-bold mb-2 leading-tight line-clamp-1">
-                    {task.title}
-                </h2>
+  return (
+<li className=" h-[169px] rounded-[20px] shadow-xl p-3 xl:w-full relative overflow-hidden border-2 border-gray-200" onClick={() => moveTask(task)}>
+      <div className="absolute inset-0 rounded-2xl"></div>
+      <div className="relative z-10">
+        <span className={`inline-block tag-${task.status} text-xs px-2 py-1 rounded-full mb-4 shadow-md capitalize`}>
+          {task.status}
+        </span>
 
-                <p className="text-gray-500 text-sm mb-5 line-clamp-2">
-                    {task.description}
-                </p>
+        <h2 className="text-md font-bold mb-2 leading-tight line-clamp-1">
+          {task.title}
+        </h2>
 
-                <div className="flex items-center justify-end">
-                    <div className="flex items-center text-gray-400">
-                        <span className={`text-xs font-medium mr-2 ${dateString === dateTodayString ? 'text-red-500' : ''}`}>{dateString}</span>
-                    </div>
-                </div>
-            </div>
-        </li>
-    )
-}
+        <p className="text-gray-500 text-sm mb-5 line-clamp-2">
+          {task.description}
+        </p>
+
+        <div className="flex items-center justify-end">
+          <div className="flex items-center text-gray-400">
+            <span
+              className={`text-xs font-medium mr-2 ${
+                dateString < dateToday && task.status !== "done"
+                  ? "text-red-500"
+                  : ""
+              }`}
+            >
+              {cardDateString}
+            </span>
+          </div>
+        </div>
+      </div>
+    </li>
+  );
+};
 
 export default Card;

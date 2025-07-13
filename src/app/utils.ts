@@ -32,10 +32,10 @@ export const initialObjectsOfArray = {
         },
         {
             id: "5",
-            title: "ongoing 2",
+            title: "How To Build A Context Menu",
+            description: "A custom context menu can bring your app to new levels, giving users handy shortcuts to functionality that can make their life easier.",
             status: "ongoing",
-            description: "ongoing 2",
-            dueDate: "2025-06-04"
+            dueDate: "2025-07-13"
         },
         {
             id: "6",
@@ -55,9 +55,9 @@ export const initialObjectsOfArray = {
         },
         {
             id: "8",
-            title: "done 2",
+            title: "Docker",
+            description: "You have Docker installed on your system",
             status: "done",
-            description: "done 2",
             dueDate: "2025-06-04"
         },
         {
