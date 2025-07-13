@@ -48,6 +48,7 @@ const Dnd = ({ moveTask, tasks, setTasks }: { moveTask: (task: taskProp) => void
                 <div>
                     <h2 className="text-2xl font-bold sm:text-center">Todo</h2>
                     <ul
+                        role="list"
                         id="new"
                         onDrop={todoDrop.handleDrop}
                         onDragOver={todoDrop.handleDragOver}
@@ -59,6 +60,7 @@ const Dnd = ({ moveTask, tasks, setTasks }: { moveTask: (task: taskProp) => void
                 <div>
                     <h2 className="text-2xl font-bold sm:text-center">In Progress</h2>
                     <ul
+                        role="list"
                         id="ongoing"
                         onDrop={ongoingDrop.handleDrop}
                         onDragOver={ongoingDrop.handleDragOver}
@@ -70,7 +72,7 @@ const Dnd = ({ moveTask, tasks, setTasks }: { moveTask: (task: taskProp) => void
 
                 <div>
                     <h2 className="text-2xl font-bold sm:text-center">Done</h2>
-                    <ul id="done"
+                    <ul role="list" id="done"
                         onDrop={doneDrop.handleDrop}
                         onDragOver={doneDrop.handleDragOver}
                         className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded sm:min-h-[calc(100vh-400px)] md:min-h-[calc(100vh-200px)]] ${dropIndicator === 'done' ? 'bg-blue-200' : ''}`}
