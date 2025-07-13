@@ -4,4 +4,5 @@ export interface taskProp {
   status: 'new' | 'ongoing' | 'done';
   description: string;
   dueDate: string;
+  selected: boolean;
 }
