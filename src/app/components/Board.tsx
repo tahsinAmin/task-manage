@@ -111,23 +111,19 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
 
   return (
     <div role="main" className="md:max-w-6xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
-      <div className="flex flex-col gap-4">
+      <AddTaskModal handleSubmit={handleSubmit} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <TaskDetailsModal itemSelected={itemSelected!} onVerify={handleUpdate} isModalOpen={isUpdateModalOpen} setIsModalOpen={setIsUpdateModalOpen} />
 
-        <AddTaskModal handleSubmit={handleSubmit} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-        <TaskDetailsModal itemSelected={itemSelected!} onVerify={handleUpdate} isModalOpen={isUpdateModalOpen} setIsModalOpen={setIsUpdateModalOpen} />
-
-          {displayOptions &&
-            <OptionsListMenu
-              activeTag={activeTag}
-              shiftTask={shiftTask}
-              itemSelected={itemSelected!}
-              setIsUpdateModalOpen={setIsUpdateModalOpen}
-              setDisplayOptions={setDisplayOptions}
-            />
-          }
-          <Dnd moveTask={moveTask} tasks={tasks} setTasks={setTasks} />
-        </div>
-      </div>
+      {displayOptions &&
+        <OptionsListMenu
+          activeTag={activeTag}
+          shiftTask={shiftTask}
+          itemSelected={itemSelected!}
+          setIsUpdateModalOpen={setIsUpdateModalOpen}
+          setDisplayOptions={setDisplayOptions}
+        />
+      }
+      <Dnd moveTask={moveTask} tasks={tasks} setTasks={setTasks} />
     </div>
   );
 }

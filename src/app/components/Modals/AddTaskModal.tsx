@@ -20,7 +20,7 @@ export const AddTaskModal = ({ handleSubmit, isModalOpen, setIsModalOpen }: { ha
             <div className="relative bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm md:max-w-md lg:max-w-lg transform transition-all duration-300 ease-out scale-95 opacity-0 animate-scale-in">
               {/* Modal Header */}
               <div className="flex justify-between items-center pb-4 border-b border-gray-200">
-                <h2 className="text-2xl font-bold text-gray-800">Add New Item</h2>
+                <h2 id="modal-title" className="text-2xl font-bold text-gray-800">Add New Item</h2>
                 <button
                   onClick={closeModal}
                   className="text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300 rounded-full p-1 transition duration-200 ease-in-out"
