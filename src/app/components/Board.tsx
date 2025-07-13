@@ -44,7 +44,7 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const newItem = { id: crypto.randomUUID(), title: e.currentTarget.task.value, status: "new", description: e.currentTarget.description.value, dueDate: "" };
+    const newItem = { id: crypto.randomUUID(), title: e.currentTarget.task.value, status: "new" as const, description: e.currentTarget.description.value, dueDate: "" };
     setNewTask([newItem, ...newTask]);
     e.currentTarget.task.value = "";
     e.currentTarget.description.value = "";
