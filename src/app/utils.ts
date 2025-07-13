@@ -69,7 +69,7 @@ export const state = {
     new: 0,
     ongoing: 1,
     done: 2
-  }
+}
 
 export const populateData = () => {
     const localNew = localStorage.getItem("newTask");
@@ -85,17 +85,17 @@ export const populateData = () => {
     if (localNew) {
         initialObjectsOfArray.new = JSON.parse(localNew);
     } else {
-        initialObjectsOfArray.new = initialObjectsOfArray.new;
+        initialObjectsOfArray.new = projectData.new;
     }
     if (localOngoing) {
         initialObjectsOfArray.ongoing = JSON.parse(localOngoing);
     } else {
-        initialObjectsOfArray.ongoing = initialObjectsOfArray.ongoing;
+        initialObjectsOfArray.ongoing = projectData.ongoing;
     }
     if (localDone) {
         initialObjectsOfArray.done = JSON.parse(localDone);
     } else {
-        initialObjectsOfArray.done = initialObjectsOfArray.done;
+        initialObjectsOfArray.done = projectData.done;
     }
     return initialObjectsOfArray
 }
