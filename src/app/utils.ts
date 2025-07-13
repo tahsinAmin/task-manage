@@ -69,6 +69,8 @@ export const projectData: {
     ]
 };
 
+export const demoTasks = [...projectData.new, ...projectData.ongoing, ...projectData.done];
+
 export const state = {
     new: 0,
     ongoing: 1,
@@ -93,19 +95,8 @@ function parseTasks(data: string | null, fallback: taskProp[]): taskProp[] {
 }
 
 export const populateData = () => {
-    const localNew = localStorage.getItem("newTask");
-    const localOngoing = localStorage.getItem("ongoing");
-    const localDone = localStorage.getItem("done");
-
-    let initialObjectsOfArray = {
-        new: parseTasks(localNew, projectData.new),
-        ongoing: parseTasks(localOngoing, projectData.ongoing),
-        done: parseTasks(localDone, projectData.done)
-    };
-    return initialObjectsOfArray;
+    const localAlltasks = localStorage.getItem("allTasks");
+    return parseTasks(localAlltasks, demoTasks);
 }
 
-export const demoTasks = [...projectData.new, ...projectData.ongoing, ...projectData.done];
-
-
-// export const populateData =  () => projectData;
+// export const populateData =  () => demoTasks;
