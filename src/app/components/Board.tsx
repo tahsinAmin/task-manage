@@ -101,7 +101,7 @@ export const Board = () => {
     <div className="">
       <Navbar setIsModalOpen={setIsModalOpen}/>
       
-      <div className="w-screen md:max-w-7xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
+      <div className="md:max-w-6xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
         <div className="flex flex-col gap-4">
 
         <AddTaskModal handleSubmit={handleSubmit} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
@@ -154,7 +154,7 @@ export const Board = () => {
             </div>
           }
           <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
               <Column title="New" tasks={newTask} moveTask={moveTask} />
               <Column title="Ongoing" tasks={ongoing} moveTask={moveTask} />
               <Column title="Done" tasks={done} moveTask={moveTask} />
