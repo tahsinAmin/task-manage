@@ -7,6 +7,9 @@
   --foreground: #171717;
 }
 
+.menu-list {
+  @apply bg-white rounded-xl shadow-lg p-4 w-full max-w-sm mx-auto;
+}
 .column {
   @apply flex flex-col items-center justify-start w-full p-0.5 gap-1 rounded sm:min-h-[calc(100vh-400px)] md:min-h-[calc(100vh-200px)];
 }

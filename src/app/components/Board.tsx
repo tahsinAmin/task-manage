@@ -67,6 +67,12 @@ export const Board = () => {
     setTasks([...newArrOfObjects]);
   }
 
+  const deleteTask = (task: taskProp) => {
+    const newTasks: taskProp[] = tasks.filter((someTask) => someTask.id !== task.id);
+    setDisplayOptions(false);
+    setTasks(newTasks);
+  }
+
   const shiftTask = (index: number, task: taskProp) => {
     setDisplayOptions(false)
     const taskStatus = indexToStatus[index] as Status;
@@ -100,6 +106,7 @@ export const Board = () => {
           shiftTask={shiftTask}
           itemSelected={itemSelected!}
           setDisplayOptions={setDisplayOptions}
+          deleteTask={deleteTask}
         />
       }
       <Dnd moveTask={moveTask} tasks={tasks} setTasks={setTasks} setItemSelected={setItemSelected} setMovedToOngoing={setMovedToOngoing} />
