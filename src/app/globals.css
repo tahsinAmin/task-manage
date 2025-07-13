@@ -7,6 +7,11 @@
   --foreground: #171717;
 }
 
+/* Card */
+.card-title {
+  @apply text-base font-bold mb-2 leading-tight line-clamp-1;
+}
+
 .tag-new {
   background-color: #dae1e7;
 }

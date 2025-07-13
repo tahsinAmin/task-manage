@@ -45,7 +45,7 @@ export const projectData: {
             title: "Investigate Database Performance Bottleneck",
             status: "ongoing",
             description: "Analyzing slow query logs on the production database, specifically for the `customer_transactions` table. Initial findings suggest a missing index on the `transaction_date` column, which is being investigated for implementation.",
-            dueDate: "2025-07-13",
+            dueDate: "2025-07-11",
             selected: false
         },
         {
@@ -77,6 +77,8 @@ export const projectData: {
     ]
 };
 
+export const demoTasks = [...projectData.new, ...projectData.ongoing, ...projectData.done];
+
 export const state = {
     new: 0,
     ongoing: 1,
@@ -101,19 +103,8 @@ function parseTasks(data: string | null, fallback: taskProp[]): taskProp[] {
 }
 
 export const populateData = () => {
-    const localNew = localStorage.getItem("newTask");
-    const localOngoing = localStorage.getItem("ongoing");
-    const localDone = localStorage.getItem("done");
-
-    let initialObjectsOfArray = {
-        new: parseTasks(localNew, projectData.new),
-        ongoing: parseTasks(localOngoing, projectData.ongoing),
-        done: parseTasks(localDone, projectData.done)
-    };
-    return initialObjectsOfArray;
+    const localAlltasks = localStorage.getItem("allTasks");
+    return parseTasks(localAlltasks, demoTasks);
 }
 
-export const demoTasks = [...projectData.new, ...projectData.ongoing, ...projectData.done];
-
-
-// export const populateData =  () => projectData;
+// export const populateData =  () => demoTasks;

@@ -10,15 +10,12 @@ import Dnd from "./dnd"
 
 
 
-const initialObjectsOfArray = populateData();
+const initialTasks = populateData();
 
 export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
-  const [newTask, setNewTask] = useState<taskProp[]>(initialObjectsOfArray.new);
-  const [ongoing, setOngoing] = useState<taskProp[]>(initialObjectsOfArray.ongoing);
-  const [done, setDone] = useState<taskProp[]>(initialObjectsOfArray.done);
-  const [tasks, setTasks] = useState<taskProp[]>(demoTasks)
+  const [tasks, setTasks] = useState<taskProp[]>(initialTasks)
 
   const [activeTag, setActiveTag] = useState<number>(-1);
   const [displayOptions, setDisplayOptions] = useState<boolean>(false);
@@ -27,25 +24,13 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
 
   // Load from localStorage on mount
   useEffect(() => {
-    const localNew = localStorage.getItem("newTask");
-    const localOngoing = localStorage.getItem("ongoing");
-    const localDone = localStorage.getItem("done");
-    if (localNew) setNewTask(JSON.parse(localNew));
-    if (localOngoing) setOngoing(JSON.parse(localOngoing));
-    if (localDone) setDone(JSON.parse(localDone));
+    const localAllTasks = localStorage.getItem("allTasks");
+    if (localAllTasks) setTasks(JSON.parse(localAllTasks));
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("newTask", JSON.stringify(newTask));
-  }, [newTask]);
-
-  useEffect(() => {
-    localStorage.setItem("ongoing", JSON.stringify(ongoing));
-  }, [ongoing]);
-
-  useEffect(() => {
-    localStorage.setItem("done", JSON.stringify(done));
-  }, [done]);
+    localStorage.setItem("allTasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   useEffect(() => {
     if (movedToOngoing) {
@@ -86,21 +71,21 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
   const shiftTask = (index: number, task: taskProp) => {
     setDisplayOptions(false)
     if (task.status === "new") {
-      setNewTask(newTask.filter((newTask) => newTask.title !== task.title));
+      setTasks(tasks.filter((task) => task.title !== task.title));
     } else if (task.status === "ongoing") {
-      setOngoing(ongoing.filter((ongoing) => ongoing.title !== task.title));
+      setTasks(tasks.filter((task) => task.title !== task.title));
     } else {
-      setDone(done.filter((done) => done.title !== task.title));
+      setTasks(tasks.filter((task) => task.title !== task.title));
     }
 
     if (index === 0) {
-      setNewTask([...newTask, { ...task, status: "new" }])
+      setTasks([...tasks, { ...task, status: "new" }])
     } else if (index === 1) {
-      setOngoing([...ongoing, { ...task, status: "ongoing" }])
+      setTasks([...tasks, { ...task, status: "ongoing" }])
       setItemSelected({ ...task, status: "ongoing" })
       setMovedToOngoing(true);
     } else {
-      setDone([...done, { ...task, status: "done" }])
+      setTasks([...tasks, { ...task, status: "done" }])
     }
   }
 
