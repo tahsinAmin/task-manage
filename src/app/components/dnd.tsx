@@ -4,12 +4,13 @@ import { useCallback, useState } from "react";
 import { taskProp } from "../types";
 import Card from "./Card";
 import { useDrop } from "../hooks/useDrop";
+import { Status } from "../utils";
 
 const Dnd = ({ moveTask, tasks, setTasks }: { moveTask: (task: taskProp) => void, tasks: taskProp[], setTasks: (updater: taskProp[] | ((prevTasks: taskProp[]) => taskProp[])) => void }) => {
 
-    const [dropIndicator, setDropIndicator] = useState<string | null>(null);
+    const [dropIndicator, setDropIndicator] = useState<Status | null>(null);
 
-    const renderTasks = (status: string) => {
+    const renderTasks = (status: Status) => {
         return tasks
             .filter(task => task.status === status)
             .map(task => (
@@ -19,7 +20,7 @@ const Dnd = ({ moveTask, tasks, setTasks }: { moveTask: (task: taskProp) => void
 
 
     // Modular drop logic for each column
-    const getDropProps = useCallback((status: string) => {
+    const getDropProps = useCallback((status: Status) => {
         return useDrop({
             onDrop: (_e, taskId) => {
                 setTasks((prevTasks: taskProp[]) => {

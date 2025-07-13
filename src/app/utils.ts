@@ -76,7 +76,7 @@ export const state = {
 }
 
 const allowedStatuses = ["new", "ongoing", "done"] as const;
-type Status = typeof allowedStatuses[number];
+export type Status = typeof allowedStatuses[number];
 
 function parseTasks(data: string | null, fallback: taskProp[]): taskProp[] {
     if (!data) return fallback;
@@ -104,3 +104,5 @@ export const populateData = () => {
     };
     return initialObjectsOfArray;
 }
+
+export const demoTasks = [...projectData.new, ...projectData.ongoing, ...projectData.done];

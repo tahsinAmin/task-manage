@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import { taskProp } from "../types"
 import { demoTasks, populateData, state } from "../utils"
-import { Navbar } from "./Navbar"
 import { AddTaskModal, TaskDetailsModal } from "./Modals"
 import { OptionsListMenu } from "./OptionsListMenu"
 import Dnd from "./dnd"

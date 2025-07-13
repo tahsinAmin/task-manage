@@ -1,3 +1,5 @@
+import { taskProp } from "../types";
+
 export const OptionsListMenu = ({activeTag, shiftTask, itemSelected, setIsUpdateModalOpen, setDisplayOptions}: {activeTag: number, shiftTask: (index: number, task: taskProp) => void, itemSelected: taskProp | null, setIsUpdateModalOpen: React.Dispatch<React.SetStateAction<boolean>>, setDisplayOptions: React.Dispatch<React.SetStateAction<boolean>>}) => {
     return (
         <div className="bg-white rounded-xl shadow-lg p-4 w-full max-w-sm mx-auto">
