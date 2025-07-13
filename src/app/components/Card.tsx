@@ -1,7 +1,9 @@
 import { taskProp } from "../types";
+import { useDrag } from "../hooks/useDrag";
 const dateToday = new Date().setHours(0, 0, 0, 0);
 
-const Card = ({ task, moveTask, handleDragStart, handleDragEnd }: { task: taskProp, moveTask: (task: taskProp) => void, handleDragStart: (e: React.DragEvent<HTMLLIElement>, taskId: string) => void, handleDragEnd: (e: React.DragEvent<HTMLLIElement>) => void }) => {
+const Card = ({ task, moveTask }: { task: taskProp, moveTask: (task: taskProp) => void }) => {
+  const { handleDragStart, handleDragEnd } = useDrag({});
   const cardDate = new Date(task.dueDate);
   const dateString = cardDate.setHours(0, 0, 0, 0);
   const cardDateString = cardDate.toDateString();
