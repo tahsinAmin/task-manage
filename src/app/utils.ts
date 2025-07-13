@@ -1,6 +1,10 @@
 import { taskProp } from "./types";
 
-export const projectData = {
+export const projectData: {
+    new: taskProp[];
+    ongoing: taskProp[];
+    done: taskProp[];
+} = {
     new: [
         {
             id: "1",
@@ -71,34 +75,32 @@ export const state = {
     done: 2
 }
 
+const allowedStatuses = ["new", "ongoing", "done"] as const;
+type Status = typeof allowedStatuses[number];
+
+function parseTasks(data: string | null, fallback: taskProp[]): taskProp[] {
+    if (!data) return fallback;
+    try {
+        const parsed = JSON.parse(data);
+        if (!Array.isArray(parsed)) return fallback;
+        return parsed.map((task: any) => ({
+            ...task,
+            status: allowedStatuses.includes(task.status) ? task.status as Status : "new"
+        }));
+    } catch {
+        return fallback;
+    }
+}
+
 export const populateData = () => {
     const localNew = localStorage.getItem("newTask");
     const localOngoing = localStorage.getItem("ongoing");
     const localDone = localStorage.getItem("done");
 
     let initialObjectsOfArray = {
-        new: [] as taskProp[],
-        ongoing: [] as taskProp[],
-        done: [] as taskProp[]
-    }
-
-    if (localNew) {
-        initialObjectsOfArray.new = JSON.parse(localNew);
-    } else {
-        initialObjectsOfArray.new = projectData.new;
-    }
-    if (localOngoing) {
-        initialObjectsOfArray.ongoing = JSON.parse(localOngoing);
-    } else {
-        initialObjectsOfArray.ongoing = projectData.ongoing;
-    }
-    if (localDone) {
-        initialObjectsOfArray.done = JSON.parse(localDone);
-    } else {
-        initialObjectsOfArray.done = projectData.done;
-    }
-    return initialObjectsOfArray
+        new: parseTasks(localNew, projectData.new),
+        ongoing: parseTasks(localOngoing, projectData.ongoing),
+        done: parseTasks(localDone, projectData.done)
+    };
+    return initialObjectsOfArray;
 }
-
-
-export const demoTasks = [...projectData.new, ...projectData.ongoing, ...projectData.done]
