@@ -5,8 +5,7 @@ import { taskProp } from "../types"
 import Column from "./Column"
 import { populateData, state } from "../utils"
 import { Navbar } from "./Navbar"
-import { AddTaskModal } from "./AddTaskModal"
-import { TaskDetailsModal } from "./TaskDetailsModal"
+import { AddTaskModal, TaskDetailsModal } from "./Modals"
 import { OptionsListMenu } from "./OptionsListMenu"
 
 
