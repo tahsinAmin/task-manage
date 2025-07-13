@@ -1,17 +1,9 @@
 "use client"
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { taskProp } from "../types";
 import Card from "./Card";
 import { useDrop } from "../hooks/useDrop";
-
-interface Task {
-    id: string;
-    title: string;
-    status: string;
-    description: string;
-    dueDate: string;
-}
 
 const Dnd = ({ moveTask, tasks, setTasks }: { moveTask: (task: taskProp) => void, tasks: taskProp[], setTasks: (updater: taskProp[] | ((prevTasks: taskProp[]) => taskProp[])) => void }) => {
 
@@ -27,7 +19,7 @@ const Dnd = ({ moveTask, tasks, setTasks }: { moveTask: (task: taskProp) => void
 
 
     // Modular drop logic for each column
-    const getDropProps = (status: string) => {
+    const getDropProps = useCallback((status: string) => {
         return useDrop({
             onDrop: (_e, taskId) => {
                 setTasks((prevTasks: taskProp[]) => {
@@ -43,7 +35,7 @@ const Dnd = ({ moveTask, tasks, setTasks }: { moveTask: (task: taskProp) => void
             },
             onDragOver: () => setDropIndicator(status)
         });
-    };
+    }, []);
 
     const todoDrop = getDropProps("new");
     const ongoingDrop = getDropProps("ongoing");
