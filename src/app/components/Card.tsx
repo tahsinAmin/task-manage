@@ -7,7 +7,7 @@ const Card = ({ task, moveTask }: { task: taskProp, moveTask: (task: taskProp) =
   const cardDateString = cardDate.toDateString();
 
   return (
-<li className=" h-[169px] rounded-[20px] shadow-xl p-3 xl:w-full relative overflow-hidden border-2 border-gray-200" onClick={() => moveTask(task)}>
+    <li className="h-[169px] rounded-[20px] shadow-xl p-3 xl:w-full relative overflow-hidden border-2 border-gray-200" onClick={() => moveTask(task)}>
       <div className="absolute inset-0 rounded-2xl"></div>
       <div className="relative z-10">
         <span className={`inline-block tag-${task.status} text-xs px-2 py-1 rounded-full mb-4 shadow-md capitalize`}>
@@ -22,7 +22,7 @@ const Card = ({ task, moveTask }: { task: taskProp, moveTask: (task: taskProp) =
           {task.description}
         </p>
 
-        <div className="flex items-center justify-end">
+        {task.dueDate !== "" ? (<div className="flex items-center justify-end">
           <div className="flex items-center text-gray-400">
             <span
               className={`text-xs font-medium mr-2 ${
@@ -34,7 +34,7 @@ const Card = ({ task, moveTask }: { task: taskProp, moveTask: (task: taskProp) =
               {cardDateString}
             </span>
           </div>
-        </div>
+        </div>) : ("")}
       </div>
     </li>
   );
