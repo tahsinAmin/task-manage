@@ -104,3 +104,5 @@ export const populateData = () => {
     };
     return initialObjectsOfArray;
 }
+
+// export const populateData =  () => projectData;

@@ -19,6 +19,7 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
   const [activeTag, setActiveTag] = useState<number>(-1);
   const [displayOptions, setDisplayOptions] = useState<boolean>(false);
   const [itemSelected, setItemSelected] = useState<taskProp | null>(null);
+  const [movedToOngoing, setMovedToOngoing] = useState<boolean>(false);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -41,6 +42,12 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
   useEffect(() => {
     localStorage.setItem("done", JSON.stringify(done));
   }, [done]);
+
+  useEffect(() => {
+    if (movedToOngoing) {
+      setIsUpdateModalOpen(true);
+    }
+  }, [movedToOngoing]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -67,14 +74,14 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
 
     for (let i = 0; i < newArrOfObjects.length; i++) {
       if (newArrOfObjects[i].id === itemSelected?.id) {
-        newArrOfObjects[i].title = e.currentTarget.task.value;
-        newArrOfObjects[i].description = e.currentTarget.description.value;
-        newArrOfObjects[i].dueDate = e.currentTarget.dueDate.value;
+        newArrOfObjects[i] = { ...newArrOfObjects[i], title: e.currentTarget.task.value, description: e.currentTarget.description.value, dueDate: e.currentTarget.dueDate.value }
+        break;
       }
     }
 
     if (itemSelected?.status === "ongoing") {
       setOngoing(newArrOfObjects);
+      setMovedToOngoing(false);
     } else if (itemSelected?.status === "done") {
       setDone(newArrOfObjects);
     } else {
@@ -88,20 +95,22 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
 
   const shiftTask = (index: number, task: taskProp) => {
     setDisplayOptions(false)
+    if (task.status === "new") {
+      setNewTask(newTask.filter((newTask) => newTask.title !== task.title));
+    } else if (task.status === "ongoing") {
+      setOngoing(ongoing.filter((ongoing) => ongoing.title !== task.title));
+    } else {
+      setDone(done.filter((done) => done.title !== task.title));
+    }
+
     if (index === 0) {
       setNewTask([...newTask, { ...task, status: "new" }])
     } else if (index === 1) {
       setOngoing([...ongoing, { ...task, status: "ongoing" }])
+      setItemSelected({ ...task, status: "ongoing" })
+      setMovedToOngoing(true);
     } else {
       setDone([...done, { ...task, status: "done" }])
-    }
-
-    if (task.status === "new") {
-      setNewTask(newTask.filter((newTask) => newTask.title !== task.title))
-    } else if (task.status === "ongoing") {
-      setOngoing(ongoing.filter((ongoing) => ongoing.title !== task.title))
-    } else {
-      setDone(done.filter((done) => done.title !== task.title))
     }
   }
 
@@ -110,8 +119,6 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
     setActiveTag(state[task.status as keyof typeof state]);
     setDisplayOptions(true)
   }
-
-
 
   return (
     <div role="main" className="md:max-w-6xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
