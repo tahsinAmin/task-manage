@@ -69,3 +69,5 @@ export const initialObjectsOfArray = {
         }
     ]
 }
+
+export const demoTasks = [...initialObjectsOfArray.new, ...initialObjectsOfArray.ongoing, ...initialObjectsOfArray.done]

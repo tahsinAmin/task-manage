@@ -64,7 +64,7 @@ const Dnd = ({moveTask}: {moveTask: (task: taskProp) => void}) => {
                         id="new"
                         onDrop={(e) => handleDrop(e, "new")}
                         onDragOver={(e) => handleDragOver(e, "new")}
-                        className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded min-h-[200px] ${dropIndicator === 'new' ? 'bg-blue-200' : ''
+                        className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded  sm:min-h-[calc(100vh-400px)] md:min-h-[calc(100vh-200px)] ${dropIndicator === 'new' ? 'bg-blue-200' : ''
                             }`}
                     >
                         {renderTasks("new")}
@@ -76,7 +76,7 @@ const Dnd = ({moveTask}: {moveTask: (task: taskProp) => void}) => {
                         id="ongoing"
                         onDrop={(e) => handleDrop(e, "ongoing")}
                         onDragOver={(e) => handleDragOver(e, "ongoing")}
-                        className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded min-h-[200px] ${dropIndicator === 'ongoing' ? 'bg-blue-200' : ''
+                        className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded  sm:min-h-[calc(100vh-400px)] md:min-h-[calc(100vh-200px)] ${dropIndicator === 'ongoing' ? 'bg-blue-200' : ''
                             }`}
                     >
                         {renderTasks("ongoing")}
@@ -88,7 +88,7 @@ const Dnd = ({moveTask}: {moveTask: (task: taskProp) => void}) => {
                     <ul id="done"
                         onDrop={(e) => handleDrop(e, "done")}
                         onDragOver={(e) => handleDragOver(e, "done")}
-                        className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded min-h-[200px] ${dropIndicator === 'done' ? 'bg-blue-200' : ''
+                        className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded sm:min-h-[calc(100vh-400px)] md:min-h-[calc(100vh-200px)]] ${dropIndicator === 'done' ? 'bg-blue-200' : ''
                             }`}
                     >
                         {renderTasks("done")}
