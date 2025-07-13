@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { taskProp } from "../types";
 import Card from "./Card";
 import { useDrop } from "../hooks/useDrop";
@@ -27,7 +27,7 @@ const Dnd = ({ moveTask, tasks, setTasks, setItemSelected, setMovedToOngoing }: 
 
 
     // Modular drop logic for each column
-    const getDropProps = useCallback((status: Status) => {
+    const GetDropProps = (status: Status) => {
         return useDrop({
             onDrop: (_e, taskId) => {
                 const newTasks: taskProp[] = populateData();
@@ -46,11 +46,11 @@ const Dnd = ({ moveTask, tasks, setTasks, setItemSelected, setMovedToOngoing }: 
             },
             onDragOver: () => setDropIndicator(status)
         });
-    }, []);
+    };
 
-    const todoDrop = getDropProps("new");
-    const ongoingDrop = getDropProps("ongoing");
-    const doneDrop = getDropProps("done");
+    const todoDrop = GetDropProps("new");
+    const ongoingDrop = GetDropProps("ongoing");
+    const doneDrop = GetDropProps("done");
 
     return (
         <div className="flex flex-col p-6">
