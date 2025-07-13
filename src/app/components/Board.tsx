@@ -2,7 +2,8 @@
 
 import { useState } from "react"
 import { taskProp } from "../types"
-import { doneDemoTasks, newDemoTasks, ongoingDemoTasks } from "../utils"
+import Column from "./Column"
+import {initialObjectsOfArray } from "../utils"
 import { Navbar } from "./Navbar"
 import { AddTaskModal } from "./AddTaskModal"
 import { TaskDetailsModal } from "./TaskDetailsModal"
@@ -19,9 +20,9 @@ export const Board = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
-  const [newTask, setNewTask] = useState<taskProp[]>(newDemoTasks)
-  const [ongoing, setOngoing] = useState<taskProp[]>(ongoingDemoTasks)
-  const [done, setDone] = useState<taskProp[]>(doneDemoTasks)
+  const [newTask, setNewTask] = useState<taskProp[]>(initialObjectsOfArray.new)
+  const [ongoing, setOngoing] = useState<taskProp[]>(initialObjectsOfArray.ongoing)
+  const [done, setDone] = useState<taskProp[]>(initialObjectsOfArray.done)
   const [activeTag, setActiveTag] = useState<number>(-1)
   const [displayOptions, setDisplayOptions] = useState<boolean>(false)
   const [itemSelected, setItemSelected] = useState<taskProp | null>(null)
@@ -39,17 +40,31 @@ export const Board = () => {
   const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    let newOngoing = [...ongoing]
+    let newArrOfObjects;
+    
+    if (itemSelected?.status === "ongoing") {
+      newArrOfObjects = [...ongoing]
+    } else if (itemSelected?.status === "done") {
+      newArrOfObjects = [...done]
+    } else {
+      newArrOfObjects = [...newTask]
+    }
 
-    for (let i = 0; i < newOngoing.length; i++) {
-      if (newOngoing[i].id === itemSelected?.id) {
-        newOngoing[i].title = e.currentTarget.task.value;
-        newOngoing[i].description = e.currentTarget.description.value;
-        newOngoing[i].dueDate = e.currentTarget.dueDate.value;
+    for (let i = 0; i < newArrOfObjects.length; i++) {
+      if (newArrOfObjects[i].id === itemSelected?.id) {
+        newArrOfObjects[i].title = e.currentTarget.task.value;
+        newArrOfObjects[i].description = e.currentTarget.description.value;
+        newArrOfObjects[i].dueDate = e.currentTarget.dueDate.value;
       }
     }
 
-    setOngoing(newOngoing)
+    if (itemSelected?.status === "ongoing") {
+      setOngoing(newArrOfObjects)
+    } else if (itemSelected?.status === "done") {
+      setDone(newArrOfObjects)
+    } else {
+      setNewTask(newArrOfObjects)
+    }
     e.currentTarget.task.value = ""
     e.currentTarget.description.value = ""
     e.currentTarget.dueDate.value = ""
@@ -86,7 +101,8 @@ export const Board = () => {
   return (
     <div className="">
       <Navbar setIsModalOpen={setIsModalOpen}/>
-      <div className="md:max-w-7xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
+      
+      <div className="md:max-w-6xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
         <div className="flex flex-col gap-4">
 
         <AddTaskModal handleSubmit={handleSubmit} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
