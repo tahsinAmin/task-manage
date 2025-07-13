@@ -102,7 +102,7 @@ export const Board = () => {
           setDisplayOptions={setDisplayOptions}
         />
       }
-      <Dnd moveTask={moveTask} tasks={tasks} setTasks={setTasks} />
+      <Dnd moveTask={moveTask} tasks={tasks} setTasks={setTasks} setItemSelected={setItemSelected} setMovedToOngoing={setMovedToOngoing} />
     </div>
   );
 }
