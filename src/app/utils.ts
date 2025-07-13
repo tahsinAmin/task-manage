@@ -1,6 +1,10 @@
 import { taskProp } from "./types";
 
-export const projectData = {
+export const projectData: {
+    new: taskProp[];
+    ongoing: taskProp[];
+    done: taskProp[];
+} = {
     new: [
         {
             id: "1",
@@ -69,7 +73,24 @@ export const state = {
     new: 0,
     ongoing: 1,
     done: 2
-  }
+}
+
+const allowedStatuses = ["new", "ongoing", "done"] as const;
+export type Status = typeof allowedStatuses[number];
+
+function parseTasks(data: string | null, fallback: taskProp[]): taskProp[] {
+    if (!data) return fallback;
+    try {
+        const parsed = JSON.parse(data);
+        if (!Array.isArray(parsed)) return fallback;
+        return parsed.map((task: any) => ({
+            ...task,
+            status: allowedStatuses.includes(task.status) ? task.status as Status : "new"
+        }));
+    } catch {
+        return fallback;
+    }
+}
 
 export const populateData = () => {
     const localNew = localStorage.getItem("newTask");
@@ -77,28 +98,11 @@ export const populateData = () => {
     const localDone = localStorage.getItem("done");
 
     let initialObjectsOfArray = {
-        new: [] as taskProp[],
-        ongoing: [] as taskProp[],
-        done: [] as taskProp[]
-    }
-
-    if (localNew) {
-        initialObjectsOfArray.new = JSON.parse(localNew);
-    } else {
-        initialObjectsOfArray.new = initialObjectsOfArray.new;
-    }
-    if (localOngoing) {
-        initialObjectsOfArray.ongoing = JSON.parse(localOngoing);
-    } else {
-        initialObjectsOfArray.ongoing = initialObjectsOfArray.ongoing;
-    }
-    if (localDone) {
-        initialObjectsOfArray.done = JSON.parse(localDone);
-    } else {
-        initialObjectsOfArray.done = initialObjectsOfArray.done;
-    }
-    return initialObjectsOfArray
+        new: parseTasks(localNew, projectData.new),
+        ongoing: parseTasks(localOngoing, projectData.ongoing),
+        done: parseTasks(localDone, projectData.done)
+    };
+    return initialObjectsOfArray;
 }
 
-
-export const demoTasks = [...projectData.new, ...projectData.ongoing, ...projectData.done]
+export const demoTasks = [...projectData.new, ...projectData.ongoing, ...projectData.done];

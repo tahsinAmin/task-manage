@@ -1,3 +1,4 @@
+import React from "react";
 import { taskProp } from "../types";
 import { useDrag } from "../hooks/useDrag";
 const dateToday = new Date().setHours(0, 0, 0, 0);
@@ -9,8 +10,10 @@ const Card = ({ task, moveTask }: { task: taskProp, moveTask: (task: taskProp) =
   const cardDateString = cardDate.toDateString();
 
   return (
-    <li 
-      className="h-[169px] rounded-[20px] shadow-xl p-3 w-full xl:w-[345px] relative overflow-hidden border-2 border-gray-200" onClick={() => moveTask(task)}
+    <li
+      role="listitem"
+      className="h-[169px] rounded-[20px] shadow-xl p-3 w-full xl:w-[345px] relative overflow-hidden border-2 border-gray-200"
+      onClick={() => moveTask(task)}
       draggable onDragStart={(e) => handleDragStart(e, task.id)} onDragEnd={(e) => handleDragEnd(e)}
     >
       <div className="absolute inset-0 rounded-2xl"></div>
@@ -45,4 +48,4 @@ const Card = ({ task, moveTask }: { task: taskProp, moveTask: (task: taskProp) =
   );
 };
 
-export default Card;
+export default React.memo(Card);

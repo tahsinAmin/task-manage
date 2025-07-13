@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { taskProp } from "../types";
+import { taskProp } from "../../types";
 
 export const TaskDetailsModal = ({ itemSelected, onVerify, isModalOpen, setIsModalOpen }: { itemSelected: taskProp, onVerify: (e: React.FormEvent<HTMLFormElement>) => void, isModalOpen: boolean, setIsModalOpen: (value: boolean) => void }) => {
     const [title, setTitle] = useState(itemSelected?.title ?? '');
@@ -21,11 +21,11 @@ export const TaskDetailsModal = ({ itemSelected, onVerify, isModalOpen, setIsMod
         const year = today.getFullYear();
         const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
         const day = String(today.getDate()).padStart(2, '0');
-    
+
         const formattedToday = `${year}-${month}-${day}`;
         setMinDate(formattedToday);
-      }, [])
-    
+    }, [])
+
     const closeModal = () => {
         setIsModalOpen(false);
         // Optionally reset form fields when closing the modal
@@ -103,8 +103,8 @@ export const TaskDetailsModal = ({ itemSelected, onVerify, isModalOpen, setIsMod
                                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                             id="itemDescription"
                                             rows={3}
-                                        value={description}
-                                        onChange={(e) => setDescription(e.target.value)}
+                                            value={description}
+                                            onChange={(e) => setDescription(e.target.value)}
                                         ></textarea>
                                     </div>
 
@@ -121,7 +121,7 @@ export const TaskDetailsModal = ({ itemSelected, onVerify, isModalOpen, setIsMod
                                             min={minDate}
                                             value={dueDate}
                                             onChange={(e) => setDueDate(e.target.value)}
-                                            />
+                                        />
                                     </div>
                                 </div>
 

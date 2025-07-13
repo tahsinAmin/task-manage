@@ -1,47 +1,30 @@
 "use client"
 
-import { useState } from "react";
-import { demoTasks } from "../utils";
+import { useCallback, useState } from "react";
 import { taskProp } from "../types";
 import Card from "./Card";
 import { useDrop } from "../hooks/useDrop";
+import { Status } from "../utils";
 
-interface Task {
-    id: string;
-    title: string;
-    status: string;
-    description: string;
-    dueDate: string;
-}
+const Dnd = ({ moveTask, tasks, setTasks }: { moveTask: (task: taskProp) => void, tasks: taskProp[], setTasks: (updater: taskProp[] | ((prevTasks: taskProp[]) => taskProp[])) => void }) => {
 
-const Dnd = ({moveTask}: {moveTask: (task: taskProp) => void}) => {
-    const [tasks, setTasks] = useState<Task[]>(demoTasks)
+    const [dropIndicator, setDropIndicator] = useState<Status | null>(null);
 
-    const [dropIndicator, setDropIndicator] = useState<string | null>(null);
-
-    const renderTasks = (status: string) => {
+    const renderTasks = (status: Status) => {
         return tasks
             .filter(task => task.status === status)
             .map(task => (
                 <Card key={task.id} task={task} moveTask={moveTask} />
             ));
     };
-    const handleDragStart = (e: React.DragEvent<HTMLLIElement>, taskId: string) => {
-        e.dataTransfer.setData("text/plain", taskId.toString());
-    }
-
-    const handleDragEnd = (e: React.DragEvent<HTMLLIElement>) => {
-        e.dataTransfer.clearData();
-        setDropIndicator(null);
-    }
 
 
     // Modular drop logic for each column
-    const getDropProps = (status: string) => {
+    const getDropProps = useCallback((status: Status) => {
         return useDrop({
             onDrop: (_e, taskId) => {
-                setTasks(prevTasks => {
-                    const newTasks = [...prevTasks];
+                setTasks((prevTasks: taskProp[]) => {
+                    const newTasks: taskProp[] = [...prevTasks];
                     const taskIndex = newTasks.findIndex((task) => task.id === taskId);
                     if (taskIndex === -1) return newTasks;
                     const taskToMove = newTasks[taskIndex];
@@ -53,7 +36,7 @@ const Dnd = ({moveTask}: {moveTask: (task: taskProp) => void}) => {
             },
             onDragOver: () => setDropIndicator(status)
         });
-    };
+    }, []);
 
     const todoDrop = getDropProps("new");
     const ongoingDrop = getDropProps("ongoing");
