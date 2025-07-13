@@ -90,7 +90,7 @@ export const populateData = () => {
         const localAlltasks = localStorage.getItem("allTasks");
         return parseTasks(localAlltasks, demoTasks);
     }
-    return demoTasks;
+    return [];
 }
 
 // export const populateData = () => demoTasks;
