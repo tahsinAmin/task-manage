@@ -4,15 +4,13 @@ import { useState, useEffect } from "react"
 import { taskProp } from "../types"
 import Column from "./Column"
 import { populateData, state } from "../utils"
-import { Navbar } from "./Navbar"
 import { AddTaskModal, TaskDetailsModal } from "./Modals"
 import { OptionsListMenu } from "./OptionsListMenu"
 
 
 const initialObjectsOfArray = populateData();
 
-export const Board = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   const [newTask, setNewTask] = useState<taskProp[]>(initialObjectsOfArray.new);
@@ -117,8 +115,6 @@ export const Board = () => {
 
   return (
     <div className="">
-      <Navbar setIsModalOpen={setIsModalOpen} />
-
       <div className="md:max-w-6xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
         <div className="flex flex-col gap-4">
 
