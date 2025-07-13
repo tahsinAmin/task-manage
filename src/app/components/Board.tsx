@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { taskProp } from "../types"
-import { populateData, state } from "../utils"
+import { demoTasks, populateData, state } from "../utils"
 import { Navbar } from "./Navbar"
 import { AddTaskModal } from "./AddTaskModal"
 import { TaskDetailsModal } from "./TaskDetailsModal"
@@ -20,6 +20,8 @@ export const Board = () => {
   const [newTask, setNewTask] = useState<taskProp[]>(initialObjectsOfArray.new);
   const [ongoing, setOngoing] = useState<taskProp[]>(initialObjectsOfArray.ongoing);
   const [done, setDone] = useState<taskProp[]>(initialObjectsOfArray.done);
+  const [tasks, setTasks] = useState<taskProp[]>(demoTasks)
+
   const [activeTag, setActiveTag] = useState<number>(-1);
   const [displayOptions, setDisplayOptions] = useState<boolean>(false);
   const [itemSelected, setItemSelected] = useState<taskProp | null>(null);
@@ -49,7 +51,7 @@ export const Board = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const newItem = { id: crypto.randomUUID(), title: e.currentTarget.task.value, status: "new", description: e.currentTarget.description.value, dueDate: "" };
-    setNewTask([newItem, ...newTask]);
+    setTasks([newItem, ...tasks]);
     e.currentTarget.task.value = "";
     e.currentTarget.description.value = "";
     e.currentTarget.dueDate.value = "";
@@ -59,15 +61,7 @@ export const Board = () => {
   const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    let newArrOfObjects;
-
-    if (itemSelected?.status === "ongoing") {
-      newArrOfObjects = [...ongoing]
-    } else if (itemSelected?.status === "done") {
-      newArrOfObjects = [...done]
-    } else {
-      newArrOfObjects = [...newTask]
-    }
+    let newArrOfObjects = tasks;
 
     for (let i = 0; i < newArrOfObjects.length; i++) {
       if (newArrOfObjects[i].id === itemSelected?.id) {
@@ -77,13 +71,7 @@ export const Board = () => {
       }
     }
 
-    if (itemSelected?.status === "ongoing") {
-      setOngoing(newArrOfObjects);
-    } else if (itemSelected?.status === "done") {
-      setDone(newArrOfObjects);
-    } else {
-      setNewTask(newArrOfObjects);
-    }
+    setTasks(newArrOfObjects);
     e.currentTarget.task.value = "";
     e.currentTarget.description.value = "";
     e.currentTarget.dueDate.value = "";
@@ -115,8 +103,6 @@ export const Board = () => {
     setDisplayOptions(true)
   }
 
-
-
   return (
     <div className="">
       <Navbar setIsModalOpen={setIsModalOpen} />
@@ -136,7 +122,7 @@ export const Board = () => {
               setDisplayOptions={setDisplayOptions}
             />
           }
-          <Dnd moveTask={moveTask}/>
+          <Dnd moveTask={moveTask} tasks={tasks} setTasks={setTasks} />
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react";
-import { demoTasks } from "../utils";
 import { taskProp } from "../types";
 import Card from "./Card";
 import { useDrop } from "../hooks/useDrop";
@@ -14,8 +13,7 @@ interface Task {
     dueDate: string;
 }
 
-const Dnd = ({moveTask}: {moveTask: (task: taskProp) => void}) => {
-    const [tasks, setTasks] = useState<Task[]>(demoTasks)
+const Dnd = ({moveTask, tasks, setTasks}: {moveTask: (task: taskProp) => void, tasks: taskProp[], setTasks: (tasks: taskProp[]) => void}) => {
 
     const [dropIndicator, setDropIndicator] = useState<string | null>(null);
 
@@ -26,14 +24,6 @@ const Dnd = ({moveTask}: {moveTask: (task: taskProp) => void}) => {
                 <Card key={task.id} task={task} moveTask={moveTask} />
             ));
     };
-    const handleDragStart = (e: React.DragEvent<HTMLLIElement>, taskId: string) => {
-        e.dataTransfer.setData("text/plain", taskId.toString());
-    }
-
-    const handleDragEnd = (e: React.DragEvent<HTMLLIElement>) => {
-        e.dataTransfer.clearData();
-        setDropIndicator(null);
-    }
 
 
     // Modular drop logic for each column
