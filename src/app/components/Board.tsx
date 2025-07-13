@@ -5,14 +5,15 @@ import { taskProp } from "../types"
 import { indexToStatus, populateData, state, Status } from "../utils"
 import { AddTaskModal, TaskDetailsModal } from "./Modals"
 import { OptionsListMenu } from "./OptionsListMenu"
+import { useModal } from "@/context/ModalContext"
 import Dnd from "./dnd"
 
 
 
 const initialTasks = populateData();
 
-export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+export const Board = () => {
+  const { setIsModalOpen, setIsUpdateModalOpen } = useModal();
 
   const [tasks, setTasks] = useState<taskProp[]>(initialTasks)
 
@@ -90,15 +91,14 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
 
   return (
     <div role="main" className="md:max-w-6xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
-      <AddTaskModal handleSubmit={handleSubmit} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-      <TaskDetailsModal itemSelected={itemSelected!} onVerify={handleUpdate} isModalOpen={isUpdateModalOpen} setIsModalOpen={setIsUpdateModalOpen} />
+      <AddTaskModal handleSubmit={handleSubmit} />
+      <TaskDetailsModal itemSelected={itemSelected!} onVerify={handleUpdate} />
 
       {displayOptions &&
         <OptionsListMenu
           activeTag={activeTag}
           shiftTask={shiftTask}
           itemSelected={itemSelected!}
-          setIsUpdateModalOpen={setIsUpdateModalOpen}
           setDisplayOptions={setDisplayOptions}
         />
       }
