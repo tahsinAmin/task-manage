@@ -11,6 +11,7 @@ const Card = ({ task, moveTask }: { task: taskProp, moveTask: (task: taskProp) =
 
   return (
     <li
+      role="listitem"
       className="h-[169px] rounded-[20px] shadow-xl p-3 w-full xl:w-[345px] relative overflow-hidden border-2 border-gray-200"
       onClick={() => moveTask(task)}
       draggable onDragStart={(e) => handleDragStart(e, task.id)} onDragEnd={(e) => handleDragEnd(e)}
