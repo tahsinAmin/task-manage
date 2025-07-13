@@ -6,12 +6,12 @@ import Column from "./Column"
 import { populateData, state } from "../utils"
 import { AddTaskModal, TaskDetailsModal } from "./Modals"
 import { OptionsListMenu } from "./OptionsListMenu"
-
+import { useModal } from "@/context/ModalContext"
 
 const initialObjectsOfArray = populateData();
 
-export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+export const Board = () => {
+  const { setIsModalOpen, setIsUpdateModalOpen } = useModal();
 
   const [newTask, setNewTask] = useState<taskProp[]>(initialObjectsOfArray.new);
   const [ongoing, setOngoing] = useState<taskProp[]>(initialObjectsOfArray.ongoing);
@@ -124,15 +124,14 @@ export const Board = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolean, s
     <div role="main" className="md:max-w-6xl md:mx-auto px-4 pt-10 sm:px-6 xl:pr-0">
       <div className="flex flex-col gap-4">
 
-        <AddTaskModal handleSubmit={handleSubmit} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-        <TaskDetailsModal itemSelected={itemSelected!} onVerify={handleUpdate} isModalOpen={isUpdateModalOpen} setIsModalOpen={setIsUpdateModalOpen} />
+        <AddTaskModal handleSubmit={handleSubmit} />
+        <TaskDetailsModal itemSelected={itemSelected!} onVerify={handleUpdate} />
 
         {displayOptions &&
           <OptionsListMenu
             activeTag={activeTag}
             shiftTask={shiftTask}
             itemSelected={itemSelected!}
-            setIsUpdateModalOpen={setIsUpdateModalOpen}
             setDisplayOptions={setDisplayOptions}
           />
         }

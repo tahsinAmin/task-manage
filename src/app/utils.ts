@@ -92,17 +92,17 @@ function parseTasks(data: string | null, fallback: taskProp[]): taskProp[] {
     }
 }
 
-// export const populateData = () => {
-//     const localNew = localStorage.getItem("newTask");
-//     const localOngoing = localStorage.getItem("ongoing");
-//     const localDone = localStorage.getItem("done");
+export const populateData = () => {
+    const localNew = localStorage.getItem("newTask");
+    const localOngoing = localStorage.getItem("ongoing");
+    const localDone = localStorage.getItem("done");
 
-//     let initialObjectsOfArray = {
-//         new: parseTasks(localNew, projectData.new),
-//         ongoing: parseTasks(localOngoing, projectData.ongoing),
-//         done: parseTasks(localDone, projectData.done)
-//     };
-//     return initialObjectsOfArray;
-// }
+    let initialObjectsOfArray = {
+        new: parseTasks(localNew, projectData.new),
+        ongoing: parseTasks(localOngoing, projectData.ongoing),
+        done: parseTasks(localDone, projectData.done)
+    };
+    return initialObjectsOfArray;
+}
 
-export const populateData = () => projectData;
+// export const populateData = () => projectData;

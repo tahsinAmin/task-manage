@@ -1,4 +1,8 @@
-export const Navbar = ({ setIsModalOpen }: { setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
+import { useModal } from "@/context/ModalContext"
+
+export const Navbar = () => {
+    const { setIsModalOpen } = useModal();
+
     return (
         <nav className="bg-white p-4 shadow-md">
             <div className="container mx-auto flex justify-end items-center">
