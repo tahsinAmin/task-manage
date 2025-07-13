@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { taskProp } from "../types"
-import Column from "./Column"
 import {initialObjectsOfArray } from "../utils"
 import { Navbar } from "./Navbar"
 import { AddTaskModal } from "./AddTaskModal"

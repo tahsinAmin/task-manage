@@ -36,18 +36,16 @@ const Dnd = ({moveTask}: {moveTask: (task: taskProp) => void}) => {
 
 
     const handleDrop = (e: React.DragEvent<HTMLDivElement | HTMLUListElement>, status: string) => {
-        e.preventDefault();
-        const taskId = e.dataTransfer.getData("text/plain");
-        setTasks((prevTasks) => {
-            return prevTasks.map(task => {
-                if (task.id === taskId) {
-                    return { ...task, status }
-                }
-                return task;
-            })
-        });
-        setDropIndicator(null);
-    }
+    e.preventDefault();
+    const taskId = e.dataTransfer.getData("text/plain");
+    const newTasks = tasks;
+    const taskIndex = newTasks.findIndex((task) => task.id === taskId);
+    const taskToMove = newTasks[taskIndex];
+    newTasks.splice(taskIndex, 1);
+    newTasks.push({ ...taskToMove, status });
+    setTasks(newTasks);
+    setDropIndicator(null);
+  };
 
 
     const handleDragOver = (e: React.DragEvent<HTMLDivElement | HTMLUListElement>, status: string) => {
