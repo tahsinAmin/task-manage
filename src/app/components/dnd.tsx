@@ -4,10 +4,18 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { taskProp } from "../types";
 import Card from "./Card";
 import { useDrop } from "../hooks/useDrop";
-import { Status } from "../utils";
+import { populateData, Status } from "../utils";
 import { ContextMenu } from "./ContextMenu";
 
-const Dnd = ({ moveTask, tasks, setTasks }: { moveTask: (task: taskProp) => void, tasks: taskProp[], setTasks: (updater: taskProp[] | ((prevTasks: taskProp[]) => taskProp[])) => void }) => {
+interface DndProps {
+    moveTask: (task: taskProp) => void,
+    tasks: taskProp[],
+    setTasks: (updater: taskProp[] | ((prevTasks: taskProp[]) => taskProp[])) => void,
+    setItemSelected: (task: taskProp | null) => void,
+    setMovedToOngoing: (value: boolean) => void
+}
+
+const Dnd = ({ moveTask, tasks, setTasks, setItemSelected, setMovedToOngoing }: DndProps) => {
   const contextMenuRef = useRef<HTMLMenuElement>(null);
   const [contextMenu, setContextMenu] = useState({
     position: { 
@@ -81,7 +89,6 @@ const Dnd = ({ moveTask, tasks, setTasks }: { moveTask: (task: taskProp) => void
   }
 
 
-
     const [dropIndicator, setDropIndicator] = useState<Status | null>(null);
 
     const renderTasks = (status: Status) => {
@@ -94,62 +101,65 @@ const Dnd = ({ moveTask, tasks, setTasks }: { moveTask: (task: taskProp) => void
 
 
     // Modular drop logic for each column
-    const getDropProps = useCallback((status: Status) => {
+    const GetDropProps = (status: Status) => {
         return useDrop({
             onDrop: (_e, taskId) => {
-                setTasks((prevTasks: taskProp[]) => {
-                    const newTasks: taskProp[] = [...prevTasks];
-                    const taskIndex = newTasks.findIndex((task) => task.id === taskId);
-                    if (taskIndex === -1) return newTasks;
-                    const taskToMove = newTasks[taskIndex];
-                    newTasks.splice(taskIndex, 1);
-                    newTasks.push({ ...taskToMove, status });
-                    return newTasks;
-                });
+                const newTasks: taskProp[] = populateData();
+                const taskIndex = newTasks.findIndex((task) => task.id === taskId);
+                if (taskIndex === -1) return newTasks;
+                const taskToMove = newTasks[taskIndex];
+                newTasks.splice(taskIndex, 1);
+                newTasks.push({ ...taskToMove, status });
+
+                if (status === "ongoing") {
+                    setItemSelected({ ...taskToMove, status });
+                    setMovedToOngoing(true);
+                }
+                setTasks([...newTasks]);
                 setDropIndicator(null);
             },
             onDragOver: () => setDropIndicator(status)
         });
-    }, []);
+    };
 
-    const todoDrop = getDropProps("new");
-    const ongoingDrop = getDropProps("ongoing");
-    const doneDrop = getDropProps("done");
+    const todoDrop = GetDropProps("new");
+    const ongoingDrop = GetDropProps("ongoing");
+    const doneDrop = GetDropProps("done");
 
     return (
         <div className="flex flex-col p-6">
-            <div className="grid sm:grid-cols-3 gap-2">
+            <div className="grid sm:grid-cols-3 gap-8 sm:gap-2">
                 <div>
-                    <h2 className="text-2xl font-bold sm:text-center">Todo</h2>
+                    <h2 className="card-title ml-4">Todo</h2>
                     <ul
                         role="list"
                         id="new"
                         onDrop={todoDrop.handleDrop}
                         onDragOver={todoDrop.handleDragOver}
-                        className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded  sm:min-h-[calc(100vh-400px)] md:min-h-[calc(100vh-200px)] ${dropIndicator === 'new' ? 'bg-blue-200' : ''}`}
+                        className={`column ${dropIndicator === 'new' ? 'bg-blue-200' : ''}`}
                     >
                         {renderTasks("new")}
                     </ul>
                 </div>
                 <div>
-                    <h2 className="text-2xl font-bold sm:text-center">In Progress</h2>
+                    <h2 className="card-title ml-4">In Progress</h2>
                     <ul
                         role="list"
                         id="ongoing"
-                        onDrop={ongoingDrop.handleDrop}
+                        onDrop={(e) => { ongoingDrop.handleDrop(e); }}
                         onDragOver={ongoingDrop.handleDragOver}
-                        className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded  sm:min-h-[calc(100vh-400px)] md:min-h-[calc(100vh-200px)] ${dropIndicator === 'ongoing' ? 'bg-blue-200' : ''}`}
+                        className={`column ${dropIndicator === 'ongoing' ? 'bg-blue-200' : ''}`}
                     >
                         {renderTasks("ongoing")}
                     </ul>
                 </div>
 
                 <div>
-                    <h2 className="text-2xl font-bold sm:text-center">Done</h2>
+                    <h2 className="card-title ml-4">Done</h2>
                     <ul role="list" id="done"
                         onDrop={doneDrop.handleDrop}
                         onDragOver={doneDrop.handleDragOver}
-                        className={`flex flex-col items-center justify-start w-full border-2 border-dashed p-0.5 gap-1 rounded sm:min-h-[calc(100vh-400px)] md:min-h-[calc(100vh-200px)]] ${dropIndicator === 'done' ? 'bg-blue-200' : ''}`}
+                        className={`column ${dropIndicator === 'done' ? 'bg-blue-200' : ''}`}
                     >
                         {renderTasks("done")}
                     </ul>

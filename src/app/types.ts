@@ -6,3 +6,11 @@ export interface taskProp {
   dueDate: string;
   selected: boolean;
 }
+
+export interface OptionsListMenuProps {
+  activeTag: number;
+  shiftTask: (index: number, task: taskProp) => void;
+  itemSelected: taskProp | null;
+  setDisplayOptions: React.Dispatch<React.SetStateAction<boolean>>;
+  deleteTask: (task: taskProp) => void;
+}

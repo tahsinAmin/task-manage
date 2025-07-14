@@ -37,7 +37,7 @@ export const Board = () => {
     if (movedToOngoing) {
       setIsUpdateModalOpen(true);
     }
-  }, [movedToOngoing]);
+  }, [movedToOngoing, setIsUpdateModalOpen]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -52,7 +52,7 @@ export const Board = () => {
   const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    let newArrOfObjects = tasks;
+    const newArrOfObjects = tasks;
 
     for (let i = 0; i < newArrOfObjects.length; i++) {
       if (newArrOfObjects[i].id === itemSelected?.id) {
@@ -66,6 +66,12 @@ export const Board = () => {
     e.currentTarget.dueDate.value = "";
     setIsUpdateModalOpen(false)
     setTasks([...newArrOfObjects]);
+  }
+
+  const deleteTask = (task: taskProp) => {
+    const newTasks: taskProp[] = tasks.filter((someTask) => someTask.id !== task.id);
+    setDisplayOptions(false);
+    setTasks(newTasks);
   }
 
   const shiftTask = (index: number, task: taskProp) => {
@@ -101,9 +107,10 @@ export const Board = () => {
           shiftTask={shiftTask}
           itemSelected={itemSelected!}
           setDisplayOptions={setDisplayOptions}
+          deleteTask={deleteTask}
         />
       }
-      <Dnd moveTask={moveTask} tasks={tasks} setTasks={setTasks} />
+      <Dnd moveTask={moveTask} tasks={tasks} setTasks={setTasks} setItemSelected={setItemSelected} setMovedToOngoing={setMovedToOngoing} />
     </div>
   );
 }

@@ -13,7 +13,7 @@ const Card = ({ task, moveTask, handleOnContextMenu }: { task: taskProp, moveTas
   return (
     <li
       role="listitem"
-      className={`h-[169px] rounded-[20px] shadow-xl p-3 w-full xl:w-[345px] relative overflow-hidden border-2 border-gray-200 ${task.selected ? "selected" : ""}`}
+      className={`card ${task.selected ? "selected" : ""}`}
       onContextMenu={(e) => handleOnContextMenu(e, task)}
       onClick={() => moveTask(task)}
       draggable onDragStart={(e) => handleDragStart(e, task.id)} onDragEnd={(e) => handleDragEnd(e)}
@@ -34,7 +34,7 @@ const Card = ({ task, moveTask, handleOnContextMenu }: { task: taskProp, moveTas
 
         {task.dueDate !== "" ? (<div className="flex items-center justify-end">
           <div className="flex items-center text-gray-400">
-            {overDue ? 
+            {overDue ?
               <p className="text-xs font-medium mr-2 text-red-500">
                 <span>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5 inline">
@@ -42,7 +42,7 @@ const Card = ({ task, moveTask, handleOnContextMenu }: { task: taskProp, moveTas
                   </svg> Overdue!{" "}
                 </span>
                 <span>{cardDateString}</span>
-              </p> : 
+              </p> :
               <span className='text-xs font-medium mr-2'>{cardDateString}</span>
             }
           </div>

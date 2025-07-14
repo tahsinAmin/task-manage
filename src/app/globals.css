@@ -7,7 +7,16 @@
   --foreground: #171717;
 }
 
-/* Card */
+.menu-list {
+  @apply bg-white rounded-xl shadow-lg p-4 w-full max-w-sm mx-auto;
+}
+.column {
+  @apply flex flex-col items-center justify-start w-full p-0.5 gap-1 rounded sm:min-h-[calc(100vh-400px)] md:min-h-[calc(100vh-200px)];
+}
+
+.card {
+  @apply h-[169px] rounded-[20px] shadow-xl p-3 w-full xl:w-[345px] relative overflow-hidden border-2 border-gray-200;
+}
 .card-title {
   @apply text-base font-bold mb-2 leading-tight line-clamp-1;
 }
