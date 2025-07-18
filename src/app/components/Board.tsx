@@ -36,7 +36,7 @@ export const Board = () => {
     if (movedToOngoing) {
       setIsUpdateModalOpen(true);
     }
-  }, [movedToOngoing]);
+  }, [movedToOngoing, setIsUpdateModalOpen]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -51,7 +51,7 @@ export const Board = () => {
   const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    let newArrOfObjects = tasks;
+    const newArrOfObjects = tasks;
 
     for (let i = 0; i < newArrOfObjects.length; i++) {
       if (newArrOfObjects[i].id === itemSelected?.id) {

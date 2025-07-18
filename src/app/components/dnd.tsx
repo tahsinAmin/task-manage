@@ -27,7 +27,7 @@ const Dnd = ({ moveTask, tasks, setTasks, setItemSelected, setMovedToOngoing }: 
 
 
     // Modular drop logic for each column
-    const getDropProps = useCallback((status: Status) => {
+    const GetDropProps = useCallback((status: Status) => {
         return useDrop({
             onDrop: (_e, taskId) => {
                 const newTasks: taskProp[] = populateData();
@@ -48,9 +48,9 @@ const Dnd = ({ moveTask, tasks, setTasks, setItemSelected, setMovedToOngoing }: 
         });
     }, []);
 
-    const todoDrop = getDropProps("new");
-    const ongoingDrop = getDropProps("ongoing");
-    const doneDrop = getDropProps("done");
+    const todoDrop = GetDropProps("new");
+    const ongoingDrop = GetDropProps("ongoing");
+    const doneDrop = GetDropProps("done");
 
     return (
         <div className="flex flex-col p-6">
