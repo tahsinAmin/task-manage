@@ -71,7 +71,7 @@ const allowedStatuses = ["new", "ongoing", "done"] as const;
 export type Status = typeof allowedStatuses[number];
 
 function parseTasks(data: string | null, fallback: taskProp[]): taskProp[] {
-    if (!data) return fallback;
+    if (!data || data.length === 0) return fallback;
     try {
         const parsed = JSON.parse(data);
         if (!Array.isArray(parsed)) return fallback;

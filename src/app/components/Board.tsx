@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { taskProp } from "../types"
-import { indexToStatus, populateData, state, Status } from "../utils"
+import { indexToStatus, state, Status } from "../utils"
 import { AddTaskModal, TaskDetailsModal } from "./Modals"
 import { OptionsListMenu } from "./OptionsListMenu"
 import { useModal } from "@/context/ModalContext"
@@ -10,9 +10,7 @@ import Dnd from "./dnd"
 
 
 
-const initialTasks = populateData();
-
-export const Board = () => {
+export const Board = ({ initialTasks }: { initialTasks: taskProp[] }) => {
   const { setIsModalOpen, setIsUpdateModalOpen } = useModal();
 
   const [tasks, setTasks] = useState<taskProp[]>(initialTasks)
@@ -78,7 +76,7 @@ export const Board = () => {
     const taskStatus = indexToStatus[index] as Status;
     const newTasks: taskProp[] = [...tasks];
     const taskIndex = newTasks.findIndex((someTask) => someTask.id === task.id);
-    
+
     newTasks.splice(taskIndex, 1);
     newTasks.push({ ...newTasks[taskIndex], status: taskStatus });
     setTasks(newTasks);
